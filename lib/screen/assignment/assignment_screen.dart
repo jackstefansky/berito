@@ -4,7 +4,6 @@ import 'package:berito/widget/widget.dart';
 import 'package:flutter/widgets.dart';
 
 import 'cubit/cubit.dart';
-import 'widget/widget.dart';
 
 class AssignmentScreen extends StatelessWidget {
   const AssignmentScreen({super.key});

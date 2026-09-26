@@ -125,4 +125,25 @@ void main() {
     expect(find.textContaining('Projekt ·'), findsWidgets);
     expect(find.textContaining('(za 2 dni)'), findsOneWidget);
   });
+
+  testWidgets('tapping a class opens its details with assignments', (
+    tester,
+  ) async {
+    await boot(tester, {
+      'auth.userId': 's1',
+      'auth.email': MockData.email,
+    });
+    await tester.tap(find.text('Studia').last);
+    await settle(tester);
+    await tester.tap(
+      find.text('Zaawansowane projektowanie aplikacji mobilnych').first,
+    );
+    await settle(tester);
+
+    expect(find.text('Prowadzący'), findsOneWidget);
+    expect(find.text('dr inż. Anna Nowak'), findsOneWidget);
+    expect(find.text('Budynek B'), findsWidgets);
+    expect(find.text('Nadchodzące zadania'), findsOneWidget);
+    expect(find.text('Aplikacja mobilna – etap 2'), findsOneWidget);
+  });
 }

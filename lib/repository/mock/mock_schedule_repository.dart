@@ -1,3 +1,4 @@
+import 'package:berito/core/error/error.dart';
 import 'package:berito/model/model.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,6 +12,15 @@ class MockScheduleRepository implements ScheduleRepository {
       (await getSchedule()).take(3).toList();
 
   @override
+  Future<ClassSession> getClass(String id) async {
+    final all = await getSchedule();
+    return all.firstWhere(
+      (c) => c.id == id,
+      orElse: () => throw const Failure('Nie znaleziono zajęć'),
+    );
+  }
+
+  @override
   Future<List<ClassSession>> getSchedule() async {
     final now = DateTime.now();
     DateTime at(int days, int hour, [int minute = 0]) =>
@@ -19,6 +29,7 @@ class MockScheduleRepository implements ScheduleRepository {
     return [
       ClassSession(
         id: 'cl1',
+        courseId: 'course-mobile',
         name: 'Zaawansowane projektowanie aplikacji mobilnych',
         type: ClassType.laboratory,
         start: at(1, 8),
@@ -28,6 +39,7 @@ class MockScheduleRepository implements ScheduleRepository {
       ),
       ClassSession(
         id: 'cl2',
+        courseId: 'course-distributed',
         name: 'Systemy rozproszone',
         type: ClassType.lecture,
         start: at(1, 10),
@@ -37,6 +49,7 @@ class MockScheduleRepository implements ScheduleRepository {
       ),
       ClassSession(
         id: 'cl3',
+        courseId: 'course-ethics',
         name: 'Etyka w informatyce',
         type: ClassType.conversatory,
         start: at(2, 12),
@@ -46,6 +59,7 @@ class MockScheduleRepository implements ScheduleRepository {
       ),
       ClassSession(
         id: 'cl4',
+        courseId: 'course-db',
         name: 'Bazy danych',
         type: ClassType.lecture,
         start: at(3, 9),
@@ -55,6 +69,7 @@ class MockScheduleRepository implements ScheduleRepository {
       ),
       ClassSession(
         id: 'cl5',
+        courseId: 'course-db',
         name: 'Bazy danych',
         type: ClassType.laboratory,
         start: at(3, 11),
@@ -64,6 +79,7 @@ class MockScheduleRepository implements ScheduleRepository {
       ),
       ClassSession(
         id: 'cl6',
+        courseId: 'course-distributed',
         name: 'Systemy rozproszone',
         type: ClassType.laboratory,
         start: at(4, 14),
@@ -73,6 +89,7 @@ class MockScheduleRepository implements ScheduleRepository {
       ),
       ClassSession(
         id: 'cl7',
+        courseId: 'course-ethics',
         name: 'Etyka w informatyce',
         type: ClassType.lecture,
         start: at(6, 10),

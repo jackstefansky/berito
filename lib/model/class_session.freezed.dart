@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ClassSession {
   String get id;
+  String get courseId;
   String get name;
   ClassType get type;
   DateTime get start;
@@ -39,6 +40,8 @@ mixin _$ClassSession {
         (other.runtimeType == runtimeType &&
             other is ClassSession &&
             (identical(other.id, _this.id) || other.id == _this.id) &&
+            (identical(other.courseId, _this.courseId) ||
+                other.courseId == _this.courseId) &&
             (identical(other.name, _this.name) || other.name == _this.name) &&
             (identical(other.type, _this.type) || other.type == _this.type) &&
             (identical(other.start, _this.start) ||
@@ -54,14 +57,23 @@ mixin _$ClassSession {
   @override
   int get hashCode {
     final _this = this as ClassSession;
-    return Object.hash(runtimeType, _this.id, _this.name, _this.type,
-        _this.start, _this.end, _this.lecturer, _this.room, _this.meetingUrl);
+    return Object.hash(
+        runtimeType,
+        _this.id,
+        _this.courseId,
+        _this.name,
+        _this.type,
+        _this.start,
+        _this.end,
+        _this.lecturer,
+        _this.room,
+        _this.meetingUrl);
   }
 
   @override
   String toString() {
     final _this = this as ClassSession;
-    return 'ClassSession(id: ${_this.id}, name: ${_this.name}, type: ${_this.type}, start: ${_this.start}, end: ${_this.end}, lecturer: ${_this.lecturer}, room: ${_this.room}, meetingUrl: ${_this.meetingUrl})';
+    return 'ClassSession(id: ${_this.id}, courseId: ${_this.courseId}, name: ${_this.name}, type: ${_this.type}, start: ${_this.start}, end: ${_this.end}, lecturer: ${_this.lecturer}, room: ${_this.room}, meetingUrl: ${_this.meetingUrl})';
   }
 }
 
@@ -73,6 +85,7 @@ abstract mixin class $ClassSessionCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String courseId,
       String name,
       ClassType type,
       DateTime start,
@@ -95,6 +108,7 @@ class _$ClassSessionCopyWithImpl<$Res> implements $ClassSessionCopyWith<$Res> {
   @override
   $Res call({
     Object? id = null,
+    Object? courseId = null,
     Object? name = null,
     Object? type = null,
     Object? start = null,
@@ -107,6 +121,10 @@ class _$ClassSessionCopyWithImpl<$Res> implements $ClassSessionCopyWith<$Res> {
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      courseId: null == courseId
+          ? _self.courseId
+          : courseId // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _self.name
@@ -233,16 +251,32 @@ extension ClassSessionPatterns on ClassSession {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String name, ClassType type, DateTime start,
-            DateTime end, String lecturer, String? room, String? meetingUrl)?
+    TResult Function(
+            String id,
+            String courseId,
+            String name,
+            ClassType type,
+            DateTime start,
+            DateTime end,
+            String lecturer,
+            String? room,
+            String? meetingUrl)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ClassSession() when $default != null:
-        return $default(_that.id, _that.name, _that.type, _that.start,
-            _that.end, _that.lecturer, _that.room, _that.meetingUrl);
+        return $default(
+            _that.id,
+            _that.courseId,
+            _that.name,
+            _that.type,
+            _that.start,
+            _that.end,
+            _that.lecturer,
+            _that.room,
+            _that.meetingUrl);
       case _:
         return orElse();
     }
@@ -263,15 +297,31 @@ extension ClassSessionPatterns on ClassSession {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String id, String name, ClassType type, DateTime start,
-            DateTime end, String lecturer, String? room, String? meetingUrl)
+    TResult Function(
+            String id,
+            String courseId,
+            String name,
+            ClassType type,
+            DateTime start,
+            DateTime end,
+            String lecturer,
+            String? room,
+            String? meetingUrl)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ClassSession():
-        return $default(_that.id, _that.name, _that.type, _that.start,
-            _that.end, _that.lecturer, _that.room, _that.meetingUrl);
+        return $default(
+            _that.id,
+            _that.courseId,
+            _that.name,
+            _that.type,
+            _that.start,
+            _that.end,
+            _that.lecturer,
+            _that.room,
+            _that.meetingUrl);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -291,15 +341,31 @@ extension ClassSessionPatterns on ClassSession {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String name, ClassType type, DateTime start,
-            DateTime end, String lecturer, String? room, String? meetingUrl)?
+    TResult? Function(
+            String id,
+            String courseId,
+            String name,
+            ClassType type,
+            DateTime start,
+            DateTime end,
+            String lecturer,
+            String? room,
+            String? meetingUrl)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ClassSession() when $default != null:
-        return $default(_that.id, _that.name, _that.type, _that.start,
-            _that.end, _that.lecturer, _that.room, _that.meetingUrl);
+        return $default(
+            _that.id,
+            _that.courseId,
+            _that.name,
+            _that.type,
+            _that.start,
+            _that.end,
+            _that.lecturer,
+            _that.room,
+            _that.meetingUrl);
       case _:
         return null;
     }
@@ -311,6 +377,7 @@ extension ClassSessionPatterns on ClassSession {
 class _ClassSession extends ClassSession {
   const _ClassSession(
       {required this.id,
+      required this.courseId,
       required this.name,
       required this.type,
       required this.start,
@@ -322,6 +389,8 @@ class _ClassSession extends ClassSession {
 
   @override
   final String id;
+  @override
+  final String courseId;
   @override
   final String name;
   @override
@@ -351,6 +420,8 @@ class _ClassSession extends ClassSession {
         (other.runtimeType == runtimeType &&
             other is _ClassSession &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.courseId, courseId) ||
+                other.courseId == courseId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.start, start) || other.start == start) &&
@@ -364,13 +435,13 @@ class _ClassSession extends ClassSession {
 
   @override
   int get hashCode {
-    return Object.hash(
-        runtimeType, id, name, type, start, end, lecturer, room, meetingUrl);
+    return Object.hash(runtimeType, id, courseId, name, type, start, end,
+        lecturer, room, meetingUrl);
   }
 
   @override
   String toString() {
-    return 'ClassSession(id: $id, name: $name, type: $type, start: $start, end: $end, lecturer: $lecturer, room: $room, meetingUrl: $meetingUrl)';
+    return 'ClassSession(id: $id, courseId: $courseId, name: $name, type: $type, start: $start, end: $end, lecturer: $lecturer, room: $room, meetingUrl: $meetingUrl)';
   }
 }
 
@@ -384,6 +455,7 @@ abstract mixin class _$ClassSessionCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
+      String courseId,
       String name,
       ClassType type,
       DateTime start,
@@ -407,6 +479,7 @@ class __$ClassSessionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
+    Object? courseId = null,
     Object? name = null,
     Object? type = null,
     Object? start = null,
@@ -419,6 +492,10 @@ class __$ClassSessionCopyWithImpl<$Res>
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      courseId: null == courseId
+          ? _self.courseId
+          : courseId // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _self.name

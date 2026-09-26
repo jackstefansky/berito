@@ -9,6 +9,7 @@ part 'assignment.freezed.dart';
 abstract class Assignment with _$Assignment {
   const factory Assignment({
     required String id,
+    required String courseId,
     required String title,
     required String courseName,
     required AssignmentType type,

@@ -1,5 +1,6 @@
 export 'assignment/assignment.dart';
 export 'backpack/backpack.dart';
+export 'class_detail/class_detail.dart';
 export 'home/home.dart';
 export 'login/login.dart';
 export 'main/main.dart';

@@ -1,3 +1,5 @@
+export 'assignment_card.dart';
+export 'assignment_type_style.dart';
 export 'async_content.dart';
 export 'berito_logo.dart';
 export 'class_card.dart';

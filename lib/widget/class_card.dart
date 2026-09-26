@@ -7,14 +7,15 @@ import 'class_type_style.dart';
 import 'info_row.dart';
 
 class ClassCard extends StatelessWidget {
-  const ClassCard({super.key, required this.session});
+  const ClassCard({super.key, required this.session, this.onTap});
 
   final ClassSession session;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final type = session.type;
-    return AdaptiveCard(
+    final card = AdaptiveCard(
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
@@ -59,6 +60,12 @@ class ClassCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+    if (onTap == null) return card;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: card,
     );
   }
 }

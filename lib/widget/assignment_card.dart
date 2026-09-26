@@ -1,10 +1,10 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:berito/core/util/util.dart';
 import 'package:berito/model/model.dart';
-import 'package:berito/widget/widget.dart';
 import 'package:flutter/material.dart';
 
 import 'assignment_type_style.dart';
+import 'info_row.dart';
 
 class AssignmentCard extends StatelessWidget {
   const AssignmentCard({super.key, required this.assignment});

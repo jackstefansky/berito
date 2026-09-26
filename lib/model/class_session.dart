@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'building.dart';
 import 'class_type.dart';
 
 part 'class_session.freezed.dart';
@@ -10,6 +11,7 @@ part 'class_session.freezed.dart';
 abstract class ClassSession with _$ClassSession {
   const factory ClassSession({
     required String id,
+    required String courseId,
     required String name,
     required ClassType type,
     required DateTime start,
@@ -22,4 +24,7 @@ abstract class ClassSession with _$ClassSession {
   const ClassSession._();
 
   bool get isOnline => meetingUrl != null;
+
+  /// Building taken from the room code, e.g. `B-204` -> [Building.b].
+  Building? get building => room == null ? null : Building.fromRoom(room!);
 }

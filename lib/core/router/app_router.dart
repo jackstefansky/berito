@@ -42,6 +42,16 @@ class AppRouter {
                 child: const LoginScreen(),
               ),
             ),
+            // Outside the shell so the page covers the bottom navigation bar.
+            GoRoute(
+              path: AppRoute.classDetail,
+              builder: (context, state) => BlocProvider(
+                create: (_) => getIt<ClassDetailCubit>(
+                  param1: state.pathParameters['id']!,
+                ),
+                child: const ClassDetailScreen(),
+              ),
+            ),
             StatefulShellRoute.indexedStack(
               builder: (context, state, navigationShell) =>
                   MainScreen(navigationShell: navigationShell),

@@ -1,6 +1,8 @@
+import 'package:berito/core/router/router.dart';
 import 'package:berito/model/model.dart';
 import 'package:berito/widget/widget.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 
 import 'day_header.dart';
 
@@ -24,7 +26,12 @@ class SchedulePanel extends StatelessWidget {
         children.add(DayHeader(day: day));
       }
       children
-        ..add(ClassCard(session: session))
+        ..add(
+          ClassCard(
+            session: session,
+            onTap: () => context.push(AppRoute.classDetailPath(session.id)),
+          ),
+        )
         ..add(const SizedBox(height: 8));
     }
     return ListView(

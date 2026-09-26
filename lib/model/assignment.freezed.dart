@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Assignment {
   String get id;
+  String get courseId;
   String get title;
   String get courseName;
   AssignmentType get type;
@@ -35,6 +36,8 @@ mixin _$Assignment {
         (other.runtimeType == runtimeType &&
             other is Assignment &&
             (identical(other.id, _this.id) || other.id == _this.id) &&
+            (identical(other.courseId, _this.courseId) ||
+                other.courseId == _this.courseId) &&
             (identical(other.title, _this.title) ||
                 other.title == _this.title) &&
             (identical(other.courseName, _this.courseName) ||
@@ -47,14 +50,14 @@ mixin _$Assignment {
   @override
   int get hashCode {
     final _this = this as Assignment;
-    return Object.hash(runtimeType, _this.id, _this.title, _this.courseName,
-        _this.type, _this.dueDate);
+    return Object.hash(runtimeType, _this.id, _this.courseId, _this.title,
+        _this.courseName, _this.type, _this.dueDate);
   }
 
   @override
   String toString() {
     final _this = this as Assignment;
-    return 'Assignment(id: ${_this.id}, title: ${_this.title}, courseName: ${_this.courseName}, type: ${_this.type}, dueDate: ${_this.dueDate})';
+    return 'Assignment(id: ${_this.id}, courseId: ${_this.courseId}, title: ${_this.title}, courseName: ${_this.courseName}, type: ${_this.type}, dueDate: ${_this.dueDate})';
   }
 }
 
@@ -66,6 +69,7 @@ abstract mixin class $AssignmentCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String courseId,
       String title,
       String courseName,
       AssignmentType type,
@@ -85,6 +89,7 @@ class _$AssignmentCopyWithImpl<$Res> implements $AssignmentCopyWith<$Res> {
   @override
   $Res call({
     Object? id = null,
+    Object? courseId = null,
     Object? title = null,
     Object? courseName = null,
     Object? type = null,
@@ -94,6 +99,10 @@ class _$AssignmentCopyWithImpl<$Res> implements $AssignmentCopyWith<$Res> {
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      courseId: null == courseId
+          ? _self.courseId
+          : courseId // ignore: cast_nullable_to_non_nullable
               as String,
       title: null == title
           ? _self.title
@@ -208,16 +217,16 @@ extension AssignmentPatterns on Assignment {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String title, String courseName,
-            AssignmentType type, DateTime dueDate)?
+    TResult Function(String id, String courseId, String title,
+            String courseName, AssignmentType type, DateTime dueDate)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _Assignment() when $default != null:
-        return $default(
-            _that.id, _that.title, _that.courseName, _that.type, _that.dueDate);
+        return $default(_that.id, _that.courseId, _that.title, _that.courseName,
+            _that.type, _that.dueDate);
       case _:
         return orElse();
     }
@@ -238,15 +247,15 @@ extension AssignmentPatterns on Assignment {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String id, String title, String courseName,
-            AssignmentType type, DateTime dueDate)
+    TResult Function(String id, String courseId, String title,
+            String courseName, AssignmentType type, DateTime dueDate)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Assignment():
-        return $default(
-            _that.id, _that.title, _that.courseName, _that.type, _that.dueDate);
+        return $default(_that.id, _that.courseId, _that.title, _that.courseName,
+            _that.type, _that.dueDate);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -266,15 +275,15 @@ extension AssignmentPatterns on Assignment {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String title, String courseName,
-            AssignmentType type, DateTime dueDate)?
+    TResult? Function(String id, String courseId, String title,
+            String courseName, AssignmentType type, DateTime dueDate)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Assignment() when $default != null:
-        return $default(
-            _that.id, _that.title, _that.courseName, _that.type, _that.dueDate);
+        return $default(_that.id, _that.courseId, _that.title, _that.courseName,
+            _that.type, _that.dueDate);
       case _:
         return null;
     }
@@ -286,6 +295,7 @@ extension AssignmentPatterns on Assignment {
 class _Assignment implements Assignment {
   const _Assignment(
       {required this.id,
+      required this.courseId,
       required this.title,
       required this.courseName,
       required this.type,
@@ -293,6 +303,8 @@ class _Assignment implements Assignment {
 
   @override
   final String id;
+  @override
+  final String courseId;
   @override
   final String title;
   @override
@@ -316,6 +328,8 @@ class _Assignment implements Assignment {
         (other.runtimeType == runtimeType &&
             other is _Assignment &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.courseId, courseId) ||
+                other.courseId == courseId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.courseName, courseName) ||
                 other.courseName == courseName) &&
@@ -325,12 +339,13 @@ class _Assignment implements Assignment {
 
   @override
   int get hashCode {
-    return Object.hash(runtimeType, id, title, courseName, type, dueDate);
+    return Object.hash(
+        runtimeType, id, courseId, title, courseName, type, dueDate);
   }
 
   @override
   String toString() {
-    return 'Assignment(id: $id, title: $title, courseName: $courseName, type: $type, dueDate: $dueDate)';
+    return 'Assignment(id: $id, courseId: $courseId, title: $title, courseName: $courseName, type: $type, dueDate: $dueDate)';
   }
 }
 
@@ -344,6 +359,7 @@ abstract mixin class _$AssignmentCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
+      String courseId,
       String title,
       String courseName,
       AssignmentType type,
@@ -363,6 +379,7 @@ class __$AssignmentCopyWithImpl<$Res> implements _$AssignmentCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
+    Object? courseId = null,
     Object? title = null,
     Object? courseName = null,
     Object? type = null,
@@ -372,6 +389,10 @@ class __$AssignmentCopyWithImpl<$Res> implements _$AssignmentCopyWith<$Res> {
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      courseId: null == courseId
+          ? _self.courseId
+          : courseId // ignore: cast_nullable_to_non_nullable
               as String,
       title: null == title
           ? _self.title
