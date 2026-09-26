@@ -1,6 +1,9 @@
 import 'package:berito/model/model.dart';
 
 abstract interface class ScheduleRepository {
-  /// Classes starting soonest first.
+  /// The next few classes, soonest first (for the home page).
   Future<List<ClassSession>> getUpcomingClasses();
+
+  /// All upcoming classes, soonest first.
+  Future<List<ClassSession>> getSchedule();
 }

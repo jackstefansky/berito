@@ -92,4 +92,25 @@ void main() {
     await settle(tester);
     expect(find.text('Komunikacja'), findsOneWidget);
   });
+
+  testWidgets('Studia shows schedule by day and grades', (tester) async {
+    await boot(tester, {
+      'auth.userId': 's1',
+      'auth.email': MockData.email,
+    });
+    await tester.tap(find.text('Studia').last);
+    await settle(tester);
+    expect(find.text('Harmonogram'), findsOneWidget);
+    expect(find.text('Oceny'), findsOneWidget);
+    // Day headers group the classes (e.g. two classes share one header).
+    expect(find.textContaining('Systemy rozproszone'), findsWidgets);
+
+    await tester.tap(find.text('Oceny'));
+    await settle(tester);
+    expect(find.text('5'), findsOneWidget);
+    expect(find.text('4,5'), findsOneWidget);
+    await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
+    await settle(tester);
+    expect(find.text('Fizyka'), findsOneWidget);
+  });
 }

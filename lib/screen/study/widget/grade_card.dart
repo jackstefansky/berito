@@ -4,29 +4,36 @@ import 'package:berito/model/model.dart';
 import 'package:berito/widget/widget.dart';
 import 'package:flutter/material.dart';
 
-import 'affair_type_style.dart';
+import 'grade_style.dart';
 
-class AffairCard extends StatelessWidget {
-  const AffairCard({super.key, required this.affair});
+class GradeCard extends StatelessWidget {
+  const GradeCard({super.key, required this.grade});
 
-  final Affair affair;
+  final Grade grade;
 
   @override
   Widget build(BuildContext context) {
-    final type = affair.type;
+    final color = grade.color;
     return AdaptiveCard(
       padding: const EdgeInsets.all(10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 36,
-            height: 36,
+            width: 44,
+            height: 44,
+            alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: type.color.withValues(alpha: 0.15),
+              color: color.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(type.icon, size: 20, color: type.color),
+            child: Text(
+              grade.label,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+                color: color,
+              ),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -34,17 +41,19 @@ class AffairCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  affair.title,
+                  grade.courseName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text(affair.description, style: const TextStyle(fontSize: 13)),
                 InfoRow(
                   icon: Icons.event_outlined,
-                  text: 'Termin: ${PolishDate.shortDate(affair.dueDate)}',
+                  text: PolishDate.shortDate(grade.date),
                 ),
+                InfoRow(icon: Icons.person_outline, text: grade.lecturer),
               ],
             ),
           ),

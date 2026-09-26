@@ -61,7 +61,10 @@ class AppRouter {
                   routes: [
                     GoRoute(
                       path: AppRoute.study,
-                      builder: (context, state) => const StudyScreen(),
+                      builder: (context, state) => BlocProvider(
+                        create: (_) => getIt<StudyCubit>(),
+                        child: const StudyScreen(),
+                      ),
                     ),
                   ],
                 ),

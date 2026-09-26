@@ -4,4 +4,5 @@ export 'announcement.dart';
 export 'auth_session.dart';
 export 'class_session.dart';
 export 'class_type.dart';
+export 'grade.dart';
 export 'student.dart';

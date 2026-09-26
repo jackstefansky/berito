@@ -24,6 +24,20 @@ abstract final class PolishDate {
     'gru',
   ];
 
+  static const _fullWeekdays = [
+    'Poniedziałek',
+    'Wtorek',
+    'Środa',
+    'Czwartek',
+    'Piątek',
+    'Sobota',
+    'Niedziela',
+  ];
+
+  /// e.g. `Poniedziałek, 5 paź`
+  static String dayHeader(DateTime d) =>
+      '${_fullWeekdays[d.weekday - 1]}, ${d.day} ${_months[d.month - 1]}';
+
   /// e.g. `pon., 5 paź`
   static String day(DateTime d) =>
       '${_weekdays[d.weekday - 1]}, ${d.day} ${_months[d.month - 1]}';
