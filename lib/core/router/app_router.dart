@@ -72,7 +72,10 @@ class AppRouter {
                   routes: [
                     GoRoute(
                       path: AppRoute.assignment,
-                      builder: (context, state) => const AssignmentScreen(),
+                      builder: (context, state) => BlocProvider(
+                        create: (_) => getIt<AssignmentCubit>(),
+                        child: const AssignmentScreen(),
+                      ),
                     ),
                   ],
                 ),

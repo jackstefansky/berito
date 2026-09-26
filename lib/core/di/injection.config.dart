@@ -16,11 +16,14 @@ import 'package:berito/core/di/app_module.dart' as _i343;
 import 'package:berito/core/router/app_router.dart' as _i564;
 import 'package:berito/repository/affair_repository.dart' as _i150;
 import 'package:berito/repository/announcement_repository.dart' as _i529;
+import 'package:berito/repository/assignment_repository.dart' as _i1045;
 import 'package:berito/repository/auth_repository.dart' as _i670;
 import 'package:berito/repository/grade_repository.dart' as _i910;
 import 'package:berito/repository/mock/mock_affair_repository.dart' as _i337;
 import 'package:berito/repository/mock/mock_announcement_repository.dart'
     as _i315;
+import 'package:berito/repository/mock/mock_assignment_repository.dart'
+    as _i468;
 import 'package:berito/repository/mock/mock_auth_repository.dart' as _i821;
 import 'package:berito/repository/mock/mock_grade_repository.dart' as _i630;
 import 'package:berito/repository/mock/mock_schedule_repository.dart' as _i845;
@@ -28,6 +31,7 @@ import 'package:berito/repository/mock/mock_student_repository.dart' as _i253;
 import 'package:berito/repository/repository.dart' as _i694;
 import 'package:berito/repository/schedule_repository.dart' as _i1034;
 import 'package:berito/repository/student_repository.dart' as _i709;
+import 'package:berito/screen/assignment/cubit/assignment_cubit.dart' as _i862;
 import 'package:berito/screen/home/cubit/home_cubit.dart' as _i74;
 import 'package:berito/screen/login/cubit/login_cubit.dart' as _i287;
 import 'package:berito/screen/study/cubit/study_cubit.dart' as _i1015;
@@ -56,12 +60,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i150.AffairRepository>(
       () => _i337.MockAffairRepository(),
     );
+    gh.lazySingleton<_i1045.AssignmentRepository>(
+      () => _i468.MockAssignmentRepository(),
+    );
     gh.lazySingleton<_i1034.ScheduleRepository>(
       () => _i845.MockScheduleRepository(),
     );
     gh.lazySingleton<_i910.GradeRepository>(() => _i630.MockGradeRepository());
     gh.lazySingleton<_i670.AuthRepository>(
       () => _i821.MockAuthRepository(gh<_i460.SharedPreferences>()),
+    );
+    gh.factory<_i862.AssignmentCubit>(
+      () => _i862.AssignmentCubit(gh<_i694.AssignmentRepository>()),
     );
     gh.factory<_i1015.StudyCubit>(
       () => _i1015.StudyCubit(

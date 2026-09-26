@@ -1,5 +1,6 @@
 export 'affair_repository.dart';
 export 'announcement_repository.dart';
+export 'assignment_repository.dart';
 export 'auth_repository.dart';
 export 'grade_repository.dart';
 export 'mock/mock.dart';

@@ -67,7 +67,7 @@ void main() {
       'auth.userId': 's1',
       'auth.email': MockData.email,
     });
-    for (final tab in ['Studia', 'Zadania', 'Plecak', 'Więcej']) {
+    for (final tab in ['Studia', 'Plecak', 'Więcej']) {
       await tester.tap(find.text(tab).last);
       await settle(tester);
       // Tab label in the bar plus the page's own title.
@@ -112,5 +112,17 @@ void main() {
     await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
     await settle(tester);
     expect(find.text('Fizyka'), findsOneWidget);
+  });
+
+  testWidgets('Zadania lists upcoming assignments', (tester) async {
+    await boot(tester, {
+      'auth.userId': 's1',
+      'auth.email': MockData.email,
+    });
+    await tester.tap(find.text('Zadania').last);
+    await settle(tester);
+    expect(find.text('Aplikacja mobilna – etap 2'), findsOneWidget);
+    expect(find.textContaining('Projekt ·'), findsWidgets);
+    expect(find.textContaining('(za 2 dni)'), findsOneWidget);
   });
 }

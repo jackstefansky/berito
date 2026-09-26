@@ -52,4 +52,17 @@ abstract final class PolishDate {
   /// e.g. `08:00–09:30`
   static String timeRange(DateTime start, DateTime end) =>
       '${time(start)}–${time(end)}';
+
+  /// Whole calendar days from [from] to [to], e.g. 0 = same day.
+  static int daysBetween(DateTime from, DateTime to) =>
+      DateTime(to.year, to.month, to.day)
+          .difference(DateTime(from.year, from.month, from.day))
+          .inDays;
+
+  /// `dziś`, `jutro`, `za 5 dni`
+  static String relativeDays(int days) => switch (days) {
+        <= 0 => 'dziś',
+        1 => 'jutro',
+        _ => 'za $days dni',
+      };
 }
