@@ -91,6 +91,5 @@ void main() {
     await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
     await settle(tester);
     expect(find.text('Komunikacja'), findsOneWidget);
-    expect(find.text('Czytaj więcej'), findsWidgets);
   });
 }

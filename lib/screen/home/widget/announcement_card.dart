@@ -1,5 +1,4 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
-import 'package:berito/core/theme/theme.dart';
 import 'package:berito/model/model.dart';
 import 'package:flutter/widgets.dart';
 
@@ -25,15 +24,6 @@ class AnnouncementCard extends StatelessWidget {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontSize: 14),
-          ),
-          const SizedBox(height: 4),
-          AdaptiveButton(
-            // TODO: open the full announcement.
-            onPressed: () {},
-            style: AdaptiveButtonStyle.plain,
-            color: AppTheme.brandGreen,
-            size: AdaptiveButtonSize.small,
-            label: 'Czytaj więcej',
           ),
         ],
       ),
