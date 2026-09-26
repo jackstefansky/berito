@@ -25,7 +25,9 @@ class AppRouter {
               AuthUnauthenticated() =>
                 location == AppRoute.login ? null : AppRoute.login,
               AuthAuthenticated() =>
-                location == AppRoute.home ? null : AppRoute.home,
+                location == AppRoute.login || location == AppRoute.splash
+                    ? AppRoute.home
+                    : null,
             };
           },
           routes: [
@@ -40,12 +42,54 @@ class AppRouter {
                 child: const LoginScreen(),
               ),
             ),
-            GoRoute(
-              path: AppRoute.home,
-              builder: (context, state) => BlocProvider(
-                create: (_) => getIt<HomeCubit>(),
-                child: const HomeScreen(),
-              ),
+            StatefulShellRoute.indexedStack(
+              builder: (context, state, navigationShell) =>
+                  MainScreen(navigationShell: navigationShell),
+              branches: [
+                StatefulShellBranch(
+                  routes: [
+                    GoRoute(
+                      path: AppRoute.home,
+                      builder: (context, state) => BlocProvider(
+                        create: (_) => getIt<HomeCubit>(),
+                        child: const HomeScreen(),
+                      ),
+                    ),
+                  ],
+                ),
+                StatefulShellBranch(
+                  routes: [
+                    GoRoute(
+                      path: AppRoute.study,
+                      builder: (context, state) => const StudyScreen(),
+                    ),
+                  ],
+                ),
+                StatefulShellBranch(
+                  routes: [
+                    GoRoute(
+                      path: AppRoute.assignment,
+                      builder: (context, state) => const AssignmentScreen(),
+                    ),
+                  ],
+                ),
+                StatefulShellBranch(
+                  routes: [
+                    GoRoute(
+                      path: AppRoute.backpack,
+                      builder: (context, state) => const BackpackScreen(),
+                    ),
+                  ],
+                ),
+                StatefulShellBranch(
+                  routes: [
+                    GoRoute(
+                      path: AppRoute.more,
+                      builder: (context, state) => const MoreScreen(),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         );

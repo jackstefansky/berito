@@ -60,4 +60,20 @@ void main() {
     expect(await getIt<AuthRepository>().restoreSession(), isNull);
     expect(find.text('Zaloguj się'), findsWidgets);
   });
+
+  testWidgets('bottom bar switches between the five tabs', (tester) async {
+    await boot(tester, {
+      'auth.userId': 's1',
+      'auth.email': MockData.email,
+    });
+    for (final tab in ['Studia', 'Zadania', 'Plecak', 'Więcej']) {
+      await tester.tap(find.text(tab).last);
+      await settle(tester);
+      // Tab label in the bar plus the page's own title.
+      expect(find.text(tab), findsAtLeastNWidgets(2), reason: tab);
+    }
+    await tester.tap(find.text('Dziś').last);
+    await settle(tester);
+    expect(find.textContaining('Witaj, Jan'), findsOneWidget);
+  });
 }

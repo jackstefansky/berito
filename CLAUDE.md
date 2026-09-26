@@ -21,7 +21,7 @@ lib/
 - Navigation: `go_router` (`core/router`). Auth gating is a `redirect` driven by `AuthCubit` (`core/auth`): unknown -> splash, unauthenticated -> login, authenticated -> home.
 - Auth: `AuthRepository` (`restoreSession`, `sessionChanges`, `signIn`, `signOut`). The mock persists the session unencrypted in `SharedPreferences` so the user stays signed in across restarts (demo login `student@berito.app` / `password`). Supabase will handle its own persistence.
 - freezed is used for models and states. `bloc_presentation` is installed but not used yet.
-- Current scope: splash, login, home.
+- Current scope: splash, login, and a five-tab shell (`MainScreen` + `StatefulShellRoute`): Dziś (home), Studia, Zadania, Plecak, Więcej. All tabs except Dziś are empty placeholders. UI text is Polish.
 
 ## Conventions
 

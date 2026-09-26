@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
     return AdaptiveScaffold(
       useFixedToolbar: false,
       appBar: AdaptiveAppBar(
-        title: 'Strona główna',
+        title: 'Dziś',
         useNativeToolbar: true,
         actions: [
           AdaptiveAppBarAction(
