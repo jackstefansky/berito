@@ -11,7 +11,7 @@ class ClassDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
-      appBar: AdaptiveAppBar(title: 'Zajęcia'),
+      appBar: AdaptiveAppBar(),
       body: AsyncContent<ClassDetailCubit, ClassDetailData>(
         builder: (context, data) => ListView(
           padding: const EdgeInsets.only(bottom: 16),
