@@ -21,7 +21,7 @@ class MainScreen extends StatelessWidget {
         ),
         items: [
           AdaptiveNavigationDestination(
-            icon: native ? 'sun.max.fill' : Icons.wb_sunny_outlined,
+            icon: native ? 'calendar' : Icons.calendar_today_outlined,
             label: 'Dziś',
           ),
           AdaptiveNavigationDestination(
@@ -29,7 +29,7 @@ class MainScreen extends StatelessWidget {
             label: 'Studia',
           ),
           AdaptiveNavigationDestination(
-            icon: native ? 'checklist' : Icons.checklist,
+            icon: native ? 'checkmark.circle.fill' : Icons.check_circle_outline,
             label: 'Zadania',
           ),
           AdaptiveNavigationDestination(
