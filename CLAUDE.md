@@ -19,7 +19,7 @@ lib/
 - State management: **Cubit** (`flutter_bloc`). Screens that just load data use `DataCubit<T>` / `AsyncContent` from `core/state` and `widget`.
 - DI: `get_it` + `injectable` (`core/di`). Annotate classes with `@injectable` / `@lazySingleton` (`@LazySingleton(as: X)` for implementations) and regenerate. Screens get their cubit from `getIt` in the route builder.
 - Navigation: `go_router` (`core/router`). Auth gating is a `redirect` driven by `AuthCubit` (`core/auth`): unknown -> splash, unauthenticated -> login, authenticated -> home.
-- Auth: `AuthRepository` (`restoreSession`, `sessionChanges`, `signIn`, `signOut`). The mock is in-memory (demo login `student@berito.app` / `password`), so every launch starts logged out.
+- Auth: `AuthRepository` (`restoreSession`, `sessionChanges`, `signIn`, `signOut`). The mock persists the session unencrypted in `SharedPreferences` so the user stays signed in across restarts (demo login `student@berito.app` / `password`). Supabase will handle its own persistence.
 - freezed is used for models and states. `bloc_presentation` is installed but not used yet.
 - Current scope: splash, login, home.
 
@@ -44,6 +44,10 @@ lib/
 ### UI
 
 - Prefer `adaptive_platform_ui` widgets (see the `adaptive-platform-ui` skill) over raw Material/Cupertino widgets.
+
+## Git workflow
+- After every change, commit with a Conventional Commits message (subject max 80 chars, e.g. `feat(login): add password visibility toggle`) and push to `origin main`.
+- Keep generated files (`*.freezed.dart`, `injection.config.dart`) in the same commit as the change that produced them.
 
 ## Commands
 

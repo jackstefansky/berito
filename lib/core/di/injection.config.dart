@@ -12,6 +12,7 @@
 
 import 'package:berito/core/auth/auth.dart' as _i755;
 import 'package:berito/core/auth/auth_cubit.dart' as _i422;
+import 'package:berito/core/di/app_module.dart' as _i343;
 import 'package:berito/core/router/app_router.dart' as _i564;
 import 'package:berito/repository/auth_repository.dart' as _i670;
 import 'package:berito/repository/mock/mock_auth_repository.dart' as _i821;
@@ -22,17 +23,28 @@ import 'package:berito/screen/home/cubit/home_cubit.dart' as _i74;
 import 'package:berito/screen/login/cubit/login_cubit.dart' as _i287;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
-    gh.lazySingleton<_i670.AuthRepository>(() => _i821.MockAuthRepository());
+    final appModule = _$AppModule();
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => appModule.sharedPreferences,
+      preResolve: true,
+    );
     gh.lazySingleton<_i709.StudentRepository>(
       () => _i253.MockStudentRepository(),
+    );
+    gh.lazySingleton<_i670.AuthRepository>(
+      () => _i821.MockAuthRepository(gh<_i460.SharedPreferences>()),
+    );
+    gh.factory<_i74.HomeCubit>(
+      () => _i74.HomeCubit(gh<_i694.StudentRepository>()),
     );
     gh.lazySingleton<_i422.AuthCubit>(
       () => _i422.AuthCubit(gh<_i694.AuthRepository>()),
@@ -43,9 +55,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i564.AppRouter>(
       () => _i564.AppRouter(gh<_i755.AuthCubit>()),
     );
-    gh.factory<_i74.HomeCubit>(
-      () => _i74.HomeCubit(gh<_i694.StudentRepository>()),
-    );
     return this;
   }
 }
+
+class _$AppModule extends _i343.AppModule {}

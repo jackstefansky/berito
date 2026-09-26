@@ -2,8 +2,8 @@ import 'package:berito/app/app.dart';
 import 'package:berito/core/di/di.dart';
 import 'package:flutter/widgets.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
+  await configureDependencies();
   runApp(const BeritoApp());
 }
