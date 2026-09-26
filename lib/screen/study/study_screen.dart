@@ -27,9 +27,7 @@ class _StudyScreenState extends State<StudyScreen> {
             // iOS 26 draws the body under the native toolbar, so start below it.
             padding: EdgeInsets.fromLTRB(
               16,
-              PlatformInfo.isIOS26OrHigher()
-                  ? MediaQuery.paddingOf(context).top
-                  : 12,
+              MediaQuery.paddingOf(context).top + 12,
               16,
               8,
             ),
