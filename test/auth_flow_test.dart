@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:berito/app/app.dart';
 import 'package:berito/core/di/di.dart';
 import 'package:berito/repository/repository.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,5 +76,21 @@ void main() {
     await tester.tap(find.text('Dziś').last);
     await settle(tester);
     expect(find.textContaining('Witaj, Jan'), findsOneWidget);
+  });
+
+  testWidgets('Dziś shows greeting and the three sections', (tester) async {
+    await boot(tester, {
+      'auth.userId': 's1',
+      'auth.email': MockData.email,
+    });
+    expect(find.text('Witaj, Jan!'), findsOneWidget);
+    expect(find.text('Nadchodzące zajęcia'), findsOneWidget);
+    expect(find.text('Systemy rozproszone'), findsWidgets);
+    expect(find.text('Wykład'), findsOneWidget);
+    expect(find.text('Laboratoria'), findsOneWidget);
+    await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
+    await settle(tester);
+    expect(find.text('Komunikacja'), findsOneWidget);
+    expect(find.text('Czytaj więcej'), findsWidgets);
   });
 }
