@@ -10,12 +10,16 @@ class ShowMoreButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AdaptiveButton(
-      // TODO: navigate to the full list.
-      onPressed: () {},
-      style: AdaptiveButtonStyle.plain,
-      color: AppTheme.brandGreen,
-      label: label,
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: AdaptiveButton(
+        // TODO: navigate to the full list.
+        onPressed: () {},
+        style: AdaptiveButtonStyle.plain,
+        color: AppTheme.brandGreen,
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        label: label,
+      ),
     );
   }
 }

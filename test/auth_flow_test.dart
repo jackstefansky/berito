@@ -86,8 +86,8 @@ void main() {
     expect(find.text('Witaj, Jan!'), findsOneWidget);
     expect(find.text('Nadchodzące zajęcia'), findsOneWidget);
     expect(find.text('Systemy rozproszone'), findsWidgets);
-    expect(find.text('Wykład'), findsOneWidget);
-    expect(find.text('Laboratoria'), findsOneWidget);
+    expect(find.textContaining('Wykład'), findsOneWidget);
+    expect(find.textContaining('Laboratoria'), findsOneWidget);
     await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
     await settle(tester);
     expect(find.text('Komunikacja'), findsOneWidget);

@@ -15,20 +15,20 @@ class AffairCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = affair.type;
     return AdaptiveCard(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: type.color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(type.icon, color: type.color),
+            child: Icon(type.icon, size: 20, color: type.color),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,12 +36,11 @@ class AffairCard extends StatelessWidget {
                 Text(
                   affair.title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 2),
-                Text(affair.description, style: const TextStyle(fontSize: 14)),
+                Text(affair.description, style: const TextStyle(fontSize: 13)),
                 InfoRow(
                   icon: Icons.event_outlined,
                   text: 'Termin: ${PolishDate.shortDate(affair.dueDate)}',

@@ -15,56 +15,44 @@ class ClassCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = session.type;
     return AdaptiveCard(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: type.color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(type.icon, color: type.color),
+            child: Icon(type.icon, size: 20, color: type.color),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   session.name,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  type.label,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: type.color,
-                  ),
-                ),
-                const SizedBox(height: 4),
                 InfoRow(
                   icon: Icons.schedule,
-                  text: '${PolishDate.day(session.start)} · '
+                  text: '${type.label} · ${PolishDate.day(session.start)} · '
                       '${PolishDate.timeRange(session.start, session.end)}',
+                  color: type.color,
                 ),
-                InfoRow(icon: Icons.person_outline, text: session.lecturer),
                 InfoRow(
                   icon: session.isOnline
                       ? Icons.videocam_outlined
                       : Icons.place_outlined,
-                  text: session.isOnline
-                      ? session.meetingUrl!
-                      : 'Sala ${session.room}',
+                  text: '${session.lecturer} · '
+                      '${session.isOnline ? session.meetingUrl! : 'Sala ${session.room}'}',
                 ),
               ],
             ),
