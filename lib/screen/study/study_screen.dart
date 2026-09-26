@@ -17,6 +17,9 @@ class _StudyScreenState extends State<StudyScreen> {
   static const _tabs = ['Harmonogram', 'Oceny'];
   int _tab = 0;
 
+  /// Height of the native iOS 26 toolbar below the status bar.
+  static const _toolbarHeight = 44.0;
+
   @override
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
@@ -27,7 +30,9 @@ class _StudyScreenState extends State<StudyScreen> {
             // iOS 26 draws the body under the native toolbar, so start below it.
             padding: EdgeInsets.fromLTRB(
               16,
-              MediaQuery.paddingOf(context).top + 12,
+              PlatformInfo.isIOS26OrHigher()
+                  ? MediaQuery.paddingOf(context).top + _toolbarHeight
+                  : 12,
               16,
               8,
             ),
