@@ -15,13 +15,13 @@ class HomeScreen extends StatelessWidget {
     return AdaptiveScaffold(
       useFixedToolbar: false,
       appBar: AdaptiveAppBar(
-        title: 'Home',
+        title: 'Strona główna',
         useNativeToolbar: true,
         actions: [
           AdaptiveAppBarAction(
             iosSymbol: 'rectangle.portrait.and.arrow.right',
             icon: Icons.logout,
-            label: 'Sign out',
+            label: 'Wyloguj się',
             onPressed: () => context.read<AuthCubit>().signOut(),
           ),
         ],
@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             AdaptiveCard(
               padding: const EdgeInsets.all(16),
-              child: Text('Welcome, ${student.firstName}!'),
+              child: Text('Witaj, ${student.firstName}!'),
             ),
           ],
         ),

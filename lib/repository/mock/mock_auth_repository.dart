@@ -27,7 +27,7 @@ class MockAuthRepository implements AuthRepository {
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 600));
     if (email.trim() != MockData.email || password != MockData.password) {
-      throw const Failure('Invalid email or password');
+      throw const Failure('Nieprawidłowy email lub hasło');
     }
     final session =
         AuthSession(userId: MockData.student.id, email: email.trim());

@@ -26,9 +26,11 @@ lib/
 ## Conventions
 
 ### Naming
+
 - Directory names are **singular** (`model`, `repository`, `screen`, `widget`, `constant`, `error`), and so are their barrels (`model/model.dart`).
 
 ### Barrel imports
+
 - Every directory containing Dart files has a barrel named after the directory that exports all its contents, including the barrels of subdirectories: `home/cubit/cubit.dart` exports `home_cubit.dart` and `home_state.dart`; `home/home.dart` exports `home_screen.dart` and `cubit/cubit.dart`.
 - Import across directories through the barrel, using `package:berito/...` (for example `package:berito/model/model.dart`), never a specific file inside another directory.
 - Inside a directory (or from a child to its parent directory) import the specific file relatively, so barrels never import themselves.
@@ -36,11 +38,14 @@ lib/
 - A file must not share the name of its directory's barrel (hence `berito_app.dart` in `app/`).
 
 ### Models
+
 - Models are `freezed` classes (`@freezed abstract class X with _$X`, `part 'x.freezed.dart'`), generated files are committed alongside. Regenerate after changing them.
 
 ### UI
+
 - Prefer `adaptive_platform_ui` widgets (see the `adaptive-platform-ui` skill) over raw Material/Cupertino widgets.
 
 ## Commands
+
 - `flutter pub get`, `flutter analyze` (must stay clean), `flutter run`
 - Code generation (once freezed/injectable are used): `fvm dart run build_runner build --delete-conflicting-outputs` (the Homebrew `dart` on PATH is too old, use `fvm dart`)

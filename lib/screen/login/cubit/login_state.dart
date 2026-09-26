@@ -6,5 +6,4 @@ part 'login_state.freezed.dart';
 sealed class LoginState with _$LoginState {
   const factory LoginState.idle() = LoginIdle;
   const factory LoginState.submitting() = LoginSubmitting;
-  const factory LoginState.failed(String message) = LoginFailed;
 }

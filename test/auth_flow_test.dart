@@ -16,17 +16,17 @@ void main() {
     configureDependencies();
     await tester.pumpWidget(const BeritoApp());
     await settle(tester);
-    expect(find.text('Log in'), findsWidgets);
+    expect(find.text('Zaloguj się'), findsWidgets);
 
     unawaited(getIt<AuthRepository>().signIn(
       email: MockData.email,
       password: MockData.password,
     ));
     await settle(tester);
-    expect(find.textContaining('Welcome, Jan'), findsOneWidget);
+    expect(find.textContaining('Witaj, Jan'), findsOneWidget);
 
     unawaited(getIt<AuthRepository>().signOut());
     await settle(tester);
-    expect(find.text('Log in'), findsWidgets);
+    expect(find.text('Zaloguj się'), findsWidgets);
   });
 }

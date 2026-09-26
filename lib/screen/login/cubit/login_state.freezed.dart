@@ -53,7 +53,6 @@ extension LoginStatePatterns on LoginState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginIdle value)? idle,
     TResult Function(LoginSubmitting value)? submitting,
-    TResult Function(LoginFailed value)? failed,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -62,8 +61,6 @@ extension LoginStatePatterns on LoginState {
         return idle(_that);
       case LoginSubmitting() when submitting != null:
         return submitting(_that);
-      case LoginFailed() when failed != null:
-        return failed(_that);
       case _:
         return orElse();
     }
@@ -86,7 +83,6 @@ extension LoginStatePatterns on LoginState {
   TResult map<TResult extends Object?>({
     required TResult Function(LoginIdle value) idle,
     required TResult Function(LoginSubmitting value) submitting,
-    required TResult Function(LoginFailed value) failed,
   }) {
     final _that = this;
     switch (_that) {
@@ -94,8 +90,6 @@ extension LoginStatePatterns on LoginState {
         return idle(_that);
       case LoginSubmitting():
         return submitting(_that);
-      case LoginFailed():
-        return failed(_that);
     }
   }
 
@@ -115,7 +109,6 @@ extension LoginStatePatterns on LoginState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginIdle value)? idle,
     TResult? Function(LoginSubmitting value)? submitting,
-    TResult? Function(LoginFailed value)? failed,
   }) {
     final _that = this;
     switch (_that) {
@@ -123,8 +116,6 @@ extension LoginStatePatterns on LoginState {
         return idle(_that);
       case LoginSubmitting() when submitting != null:
         return submitting(_that);
-      case LoginFailed() when failed != null:
-        return failed(_that);
       case _:
         return null;
     }
@@ -146,7 +137,6 @@ extension LoginStatePatterns on LoginState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? idle,
     TResult Function()? submitting,
-    TResult Function(String message)? failed,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -155,8 +145,6 @@ extension LoginStatePatterns on LoginState {
         return idle();
       case LoginSubmitting() when submitting != null:
         return submitting();
-      case LoginFailed() when failed != null:
-        return failed(_that.message);
       case _:
         return orElse();
     }
@@ -179,7 +167,6 @@ extension LoginStatePatterns on LoginState {
   TResult when<TResult extends Object?>({
     required TResult Function() idle,
     required TResult Function() submitting,
-    required TResult Function(String message) failed,
   }) {
     final _that = this;
     switch (_that) {
@@ -187,8 +174,6 @@ extension LoginStatePatterns on LoginState {
         return idle();
       case LoginSubmitting():
         return submitting();
-      case LoginFailed():
-        return failed(_that.message);
     }
   }
 
@@ -208,7 +193,6 @@ extension LoginStatePatterns on LoginState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? idle,
     TResult? Function()? submitting,
-    TResult? Function(String message)? failed,
   }) {
     final _that = this;
     switch (_that) {
@@ -216,8 +200,6 @@ extension LoginStatePatterns on LoginState {
         return idle();
       case LoginSubmitting() when submitting != null:
         return submitting();
-      case LoginFailed() when failed != null:
-        return failed(_that.message);
       case _:
         return null;
     }
@@ -261,71 +243,6 @@ class LoginSubmitting implements LoginState {
   @override
   String toString() {
     return 'LoginState.submitting()';
-  }
-}
-
-/// @nodoc
-
-class LoginFailed implements LoginState {
-  const LoginFailed(this.message);
-
-  final String message;
-
-  /// Create a copy of LoginState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $LoginFailedCopyWith<LoginFailed> get copyWith =>
-      _$LoginFailedCopyWithImpl<LoginFailed>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is LoginFailed &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @override
-  int get hashCode {
-    return Object.hash(runtimeType, message);
-  }
-
-  @override
-  String toString() {
-    return 'LoginState.failed(message: $message)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $LoginFailedCopyWith<$Res>
-    implements $LoginStateCopyWith<$Res> {
-  factory $LoginFailedCopyWith(
-          LoginFailed value, $Res Function(LoginFailed) _then) =
-      _$LoginFailedCopyWithImpl;
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class _$LoginFailedCopyWithImpl<$Res> implements $LoginFailedCopyWith<$Res> {
-  _$LoginFailedCopyWithImpl(this._self, this._then);
-
-  final LoginFailed _self;
-  final $Res Function(LoginFailed) _then;
-
-  /// Create a copy of LoginState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(LoginFailed(
-      null == message
-          ? _self.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
   }
 }
 
