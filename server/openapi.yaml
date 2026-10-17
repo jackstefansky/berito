@@ -1,0 +1,439 @@
+openapi: 3.0.3
+info:
+  title: Berito API
+  version: 1.0.0
+  description: |
+    Backend aplikacji Berito (makieta portalu studenta MeritoGO).
+
+    Logowanie (`POST /auth/login`) zwraca token sesji. Wszystkie pozostałe
+    endpointy (poza logowaniem i wylogowaniem) wymagają nagłówka
+    `Authorization: Bearer <token>` — użyj przycisku **Authorize**.
+
+    Konto testowe: `student@berito.app` / `password`.
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: Auth
+    description: Logowanie i sesja
+  - name: Student
+    description: Dane studenta
+  - name: Studia
+    description: Harmonogram zajęć i oceny
+  - name: Zadania
+    description: Terminy prac zaliczeniowych
+  - name: Dziś
+    description: Sprawy i komunikaty uczelni
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Logowanie
+      description: Sprawdza email i hasło; zwraca token sesji i dane użytkownika.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Zalogowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Brak emaila lub hasła
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Nieprawidłowy email lub hasło
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/session:
+    get:
+      tags: [Auth]
+      summary: Bieżąca sesja
+      description: Zwraca użytkownika, do którego należy token. Używane przy starcie aplikacji do przywrócenia sesji.
+      responses:
+        '200':
+          description: Sesja jest ważna
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Wylogowanie
+      description: Usuwa sesję powiązaną z tokenem. Zawsze zwraca 204, także gdy tokenu nie podano lub jest nieznany.
+      responses:
+        '204':
+          description: Wylogowano
+
+  /students/me:
+    get:
+      tags: [Student]
+      summary: Zalogowany student
+      description: Dane studenta powiązanego z tokenem (imię, nazwisko, numer indeksu, kierunek, semestr).
+      responses:
+        '200':
+          description: Dane studenta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Brak studenta dla tego użytkownika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /schedule:
+    get:
+      tags: [Studia]
+      summary: Harmonogram zajęć
+      description: Wszystkie nadchodzące zajęcia, od najbliższych.
+      responses:
+        '200':
+          description: Lista zajęć
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /schedule/{id}:
+    get:
+      tags: [Studia]
+      summary: Szczegóły zajęć
+      description: Pojedyncze zajęcia (np. ekran szczegółów zajęć).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: cl1
+      responses:
+        '200':
+          description: Zajęcia
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Nie znaleziono zajęć
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /grades:
+    get:
+      tags: [Studia]
+      summary: Oceny
+      description: Oceny końcowe zalogowanego studenta, od najnowszych.
+      responses:
+        '200':
+          description: Lista ocen
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Grade'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /assignments:
+    get:
+      tags: [Zadania]
+      summary: Nadchodzące zadania
+      description: Prace zaliczeniowe z terminem w przyszłości, od najbliższego terminu.
+      responses:
+        '200':
+          description: Lista zadań
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assignment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /courses/{courseId}/assignments:
+    get:
+      tags: [Zadania]
+      summary: Nadchodzące zadania z przedmiotu
+      description: To samo co `/assignments`, ale tylko dla jednego przedmiotu.
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: course-db
+      responses:
+        '200':
+          description: Lista zadań (może być pusta)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assignment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /affairs:
+    get:
+      tags: [Dziś]
+      summary: Moje sprawy
+      description: Rzeczy do załatwienia (opłata, egzamin, termin oddania pracy) z terminem w przyszłości, od najpilniejszej.
+      responses:
+        '200':
+          description: Lista spraw
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Affair'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /announcements:
+    get:
+      tags: [Dziś]
+      summary: Komunikaty uczelni
+      description: Ogłoszenia uczelni, od najnowszych.
+      responses:
+        '200':
+          description: Lista komunikatów
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Announcement'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Token z `POST /auth/login`.
+
+  responses:
+    Unauthorized:
+      description: Brak tokenu, token nieznany lub sesja wygasła
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          example: Sesja wygasła
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          example: student@berito.app
+        password:
+          type: string
+          example: password
+
+    Session:
+      type: object
+      required: [userId, email]
+      properties:
+        userId:
+          type: string
+          example: s1
+        email:
+          type: string
+          example: student@berito.app
+
+    LoginResponse:
+      allOf:
+        - $ref: '#/components/schemas/Session'
+        - type: object
+          required: [token]
+          properties:
+            token:
+              type: string
+              description: 'Token sesji do nagłówka `Authorization: Bearer`.'
+
+    Student:
+      type: object
+      required: [id, firstName, lastName, indexNumber, fieldOfStudy, semester]
+      properties:
+        id:
+          type: string
+          example: s1
+        firstName:
+          type: string
+          example: Jan
+        lastName:
+          type: string
+          example: Kowalski
+        indexNumber:
+          type: string
+          example: '123456'
+        fieldOfStudy:
+          type: string
+          example: Computer Science
+        semester:
+          type: integer
+          example: 7
+
+    ClassSession:
+      type: object
+      description: Zajęcia na miejscu (`room`) albo online (`meetingUrl`) — ustawione jest dokładnie jedno z nich.
+      required: [id, courseId, name, type, start, end, lecturer]
+      properties:
+        id:
+          type: string
+          example: cl1
+        courseId:
+          type: string
+          example: course-mobile
+        name:
+          type: string
+          example: Zaawansowane projektowanie aplikacji mobilnych
+        type:
+          type: string
+          enum: [lecture, laboratory, conversatory]
+          description: wykład, laboratoria, konwersatorium
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        lecturer:
+          type: string
+          example: dr inż. Anna Nowak
+        room:
+          type: string
+          nullable: true
+          example: B-204
+        meetingUrl:
+          type: string
+          nullable: true
+          example: https://teams.microsoft.com/l/meetup-join/berito-sr
+
+    Assignment:
+      type: object
+      required: [id, courseId, title, courseName, type, dueDate]
+      properties:
+        id:
+          type: string
+          example: as1
+        courseId:
+          type: string
+          example: course-mobile
+        title:
+          type: string
+          example: Aplikacja mobilna – etap 2
+        courseName:
+          type: string
+          example: Zaawansowane projektowanie aplikacji mobilnych
+        type:
+          type: string
+          enum: [project, task, report, quiz]
+          description: projekt, zadanie, sprawozdanie, kolokwium
+        dueDate:
+          type: string
+          format: date-time
+
+    Grade:
+      type: object
+      required: [id, courseName, value, date, lecturer]
+      properties:
+        id:
+          type: string
+          example: gr1
+        courseName:
+          type: string
+          example: Systemy rozproszone
+        value:
+          type: number
+          enum: [2, 3, 3.5, 4, 4.5, 5]
+        date:
+          type: string
+          format: date-time
+        lecturer:
+          type: string
+          example: prof. Piotr Wiśniewski
+
+    Affair:
+      type: object
+      required: [id, type, title, description, dueDate]
+      properties:
+        id:
+          type: string
+          example: af1
+        type:
+          type: string
+          enum: [payment, exam, assignment]
+          description: opłata, egzamin, termin oddania pracy
+        title:
+          type: string
+          example: Opłata za studia
+        description:
+          type: string
+          example: Czesne za semestr zimowy – 1 200 zł
+        dueDate:
+          type: string
+          format: date-time
+
+    Announcement:
+      type: object
+      required: [id, title, description, publishedAt]
+      properties:
+        id:
+          type: string
+          example: an1
+        title:
+          type: string
+          example: Zmiana godzin pracy dziekanatu
+        description:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time

@@ -8,6 +8,8 @@ npm run seed   # applies migrations, loads demo data, creates student@berito.app
 npm start      # http://localhost:3000
 ```
 
+Interactive docs (Swagger UI): http://localhost:3000/docs — spec in `openapi.yaml`, also served as `/openapi.json`. Keep the spec in sync when adding endpoints.
+
 - `POST /auth/login` `{email, password}` -> `{token, userId, email}`
 - `GET /auth/session` (`Authorization: Bearer <token>`) -> `{userId, email}`
 - `POST /auth/logout` (Bearer) -> 204
@@ -27,7 +29,8 @@ Env: `DELAY_MS` (0; delays every response, to test loading states; `npm run star
 ```
 src/
 ├── index.js        starts the server
-├── app.js          Express app: JSON, delay, routes
+├── app.js          Express app: JSON, docs, delay, routes
+├── docs.js         Swagger UI (/docs) from openapi.yaml
 ├── config.js       env settings
 ├── db/
 │   ├── schema.js   Drizzle tables (the source of truth for the schema)
