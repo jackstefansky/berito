@@ -22,6 +22,7 @@ import 'package:berito/datasource/assignment_remote_data_source.dart' as _i304;
 import 'package:berito/datasource/auth_remote_data_source.dart' as _i736;
 import 'package:berito/datasource/auth_token_storage.dart' as _i853;
 import 'package:berito/datasource/datasource.dart' as _i318;
+import 'package:berito/datasource/grade_remote_data_source.dart' as _i426;
 import 'package:berito/datasource/schedule_remote_data_source.dart' as _i839;
 import 'package:berito/datasource/student_remote_data_source.dart' as _i91;
 import 'package:berito/repository/affair_repository.dart' as _i150;
@@ -45,6 +46,7 @@ import 'package:berito/repository/remote/remote_announcement_repository.dart'
 import 'package:berito/repository/remote/remote_assignment_repository.dart'
     as _i831;
 import 'package:berito/repository/remote/remote_auth_repository.dart' as _i948;
+import 'package:berito/repository/remote/remote_grade_repository.dart' as _i166;
 import 'package:berito/repository/remote/remote_schedule_repository.dart'
     as _i335;
 import 'package:berito/repository/remote/remote_student_repository.dart'
@@ -82,6 +84,10 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i519.Client>(() => appModule.httpClient);
+    gh.lazySingleton<_i910.GradeRepository>(
+      () => _i630.MockGradeRepository(),
+      registerFor: {_mock},
+    );
     gh.lazySingleton<_i1034.ScheduleRepository>(
       () => _i845.MockScheduleRepository(),
       registerFor: {_mock},
@@ -102,7 +108,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i315.MockAnnouncementRepository(),
       registerFor: {_mock},
     );
-    gh.lazySingleton<_i910.GradeRepository>(() => _i630.MockGradeRepository());
     gh.lazySingleton<_i853.AuthTokenStorage>(
       () => _i853.AuthTokenStorage(gh<_i460.SharedPreferences>()),
     );
@@ -133,6 +138,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i304.AssignmentRemoteDataSource>(
       () => _i304.AssignmentRemoteDataSource(gh<_i419.ApiClient>()),
+    );
+    gh.lazySingleton<_i426.GradeRemoteDataSource>(
+      () => _i426.GradeRemoteDataSource(gh<_i419.ApiClient>()),
     );
     gh.lazySingleton<_i839.ScheduleRemoteDataSource>(
       () => _i839.ScheduleRemoteDataSource(gh<_i419.ApiClient>()),
@@ -179,6 +187,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i802.AffairCubit>(
       () => _i802.AffairCubit(gh<_i694.AffairRepository>()),
+    );
+    gh.lazySingleton<_i910.GradeRepository>(
+      () => _i166.RemoteGradeRepository(gh<_i318.GradeRemoteDataSource>()),
+      registerFor: {_remote},
     );
     gh.factory<_i214.AnnouncementCubit>(
       () => _i214.AnnouncementCubit(gh<_i694.AnnouncementRepository>()),

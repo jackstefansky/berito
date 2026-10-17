@@ -1,8 +1,10 @@
+import 'package:berito/core/di/di.dart';
 import 'package:berito/model/model.dart';
 import 'package:injectable/injectable.dart';
 
 import '../grade_repository.dart';
 
+@Environment(AppEnvironment.mock)
 @LazySingleton(as: GradeRepository)
 class MockGradeRepository implements GradeRepository {
   @override

@@ -4,5 +4,6 @@ export 'api_client.dart';
 export 'assignment_remote_data_source.dart';
 export 'auth_remote_data_source.dart';
 export 'auth_token_storage.dart';
+export 'grade_remote_data_source.dart';
 export 'schedule_remote_data_source.dart';
 export 'student_remote_data_source.dart';

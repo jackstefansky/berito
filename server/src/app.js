@@ -161,4 +161,15 @@ app.get('/announcements', requireAuth, (req, res) => {
   res.json(rows.map((r) => ({ ...r, publishedAt: iso(r.publishedAt) })));
 });
 
+// GET /grades (Bearer) -> the signed-in student's grades, newest first
+app.get('/grades', requireAuth, (req, res) => {
+  const rows = db
+    .prepare(
+      `SELECT id, course_name AS courseName, value, date, lecturer
+       FROM grades WHERE user_id = ? ORDER BY date DESC`,
+    )
+    .all(req.session.userId);
+  res.json(rows.map((r) => ({ ...r, date: iso(r.date) })));
+});
+
 export default app;

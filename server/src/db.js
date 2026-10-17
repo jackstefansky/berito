@@ -45,6 +45,14 @@ db.exec(`
     description  TEXT NOT NULL,
     published_at INTEGER NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS grades (
+    id          TEXT PRIMARY KEY,
+    user_id     TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    course_name TEXT NOT NULL,
+    value       REAL NOT NULL CHECK (value IN (2, 3, 3.5, 4, 4.5, 5)),
+    date        INTEGER NOT NULL,
+    lecturer    TEXT NOT NULL
+  );
   CREATE TABLE IF NOT EXISTS assignments (
     id          TEXT PRIMARY KEY,
     course_id   TEXT NOT NULL,

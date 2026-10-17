@@ -96,3 +96,26 @@ const upsertAnnouncement = db.prepare(
 for (const row of announcements) upsertAnnouncement.run(...row);
 
 console.log('Seeded student, classes, affairs and announcements');
+
+const daysAgo = (days) =>
+  new Date(now.getFullYear(), now.getMonth(), now.getDate() - days).getTime();
+
+// [id, userId, courseName, value, date, lecturer]
+const grades = [
+  ['gr1', 's1', 'Systemy rozproszone', 5, daysAgo(4), 'prof. Piotr Wiśniewski'],
+  ['gr2', 's1', 'Zaawansowane projektowanie aplikacji mobilnych', 4.5, daysAgo(9), 'dr inż. Anna Nowak'],
+  ['gr3', 's1', 'Etyka w informatyce', 4, daysAgo(15), 'dr Katarzyna Zielińska'],
+  ['gr4', 's1', 'Bazy danych', 3.5, daysAgo(22), 'dr hab. Marek Lewandowski'],
+  ['gr5', 's1', 'Analiza matematyczna', 3, daysAgo(40), 'dr Ewa Kamińska'],
+  ['gr6', 's1', 'Fizyka', 2, daysAgo(55), 'prof. Tomasz Wójcik'],
+];
+const upsertGrade = db.prepare(
+  `INSERT INTO grades (id, user_id, course_name, value, date, lecturer)
+   VALUES (?, ?, ?, ?, ?, ?)
+   ON CONFLICT(id) DO UPDATE SET user_id = excluded.user_id,
+     course_name = excluded.course_name, value = excluded.value,
+     date = excluded.date, lecturer = excluded.lecturer`,
+);
+for (const row of grades) upsertGrade.run(...row);
+
+console.log(`Seeded ${grades.length} grades`);

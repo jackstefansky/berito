@@ -15,6 +15,7 @@ npm start      # http://localhost:3000
 - `GET /courses/:courseId/assignments` (Bearer) -> same, for one course
 - `GET /students/me` (Bearer) -> the signed-in student
 - `GET /schedule` (all upcoming), `GET /schedule/:id` (Bearer) -> classes
+- `GET /grades` (Bearer) -> the signed-in student's grades, newest first
 - `GET /affairs`, `GET /announcements` (Bearer)
 
 Seed due dates are relative to when `npm run seed` runs; re-run it to refresh them.
