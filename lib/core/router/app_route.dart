@@ -6,6 +6,8 @@ abstract final class AppRoute {
   static const assignment = '/assignment';
   static const backpack = '/backpack';
   static const more = '/more';
+  static const affair = '/affairs';
+  static const announcement = '/announcements';
   static const classDetail = '/class/:id';
 
   static String classDetailPath(String id) => '/class/$id';

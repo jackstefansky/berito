@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:berito/app/app.dart';
 import 'package:berito/core/di/di.dart';
+import 'package:berito/core/router/router.dart';
 import 'package:berito/repository/repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -66,6 +67,32 @@ void main() {
     await tester.tap(find.text('Dziś').last);
     await settle(tester);
     expect(find.textContaining('Witaj, Jan'), findsOneWidget);
+  });
+
+  testWidgets('Pokaż więcej shows only for sections with over 3 entries', (
+    tester,
+  ) async {
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
+    // Mock data: 7 upcoming classes, but exactly 3 affairs and announcements.
+    await tester.drag(find.byType(ListView).first, const Offset(0, -300));
+    await settle(tester);
+    expect(find.text('Pokaż więcej'), findsOneWidget);
+    await tester.tap(find.text('Pokaż więcej'));
+    await settle(tester);
+    expect(find.text('Harmonogram'), findsWidgets);
+  });
+
+  testWidgets('full affairs and announcements lists open', (tester) async {
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
+    final router = getIt<AppRouter>().router;
+    unawaited(router.push(AppRoute.affair));
+    await settle(tester);
+    expect(find.text('Opłata za studia'), findsOneWidget);
+    router.pop();
+    await settle(tester);
+    unawaited(router.push(AppRoute.announcement));
+    await settle(tester);
+    expect(find.text('Dni otwarte biblioteki'), findsOneWidget);
   });
 
   testWidgets('Dziś shows greeting and the three sections', (tester) async {

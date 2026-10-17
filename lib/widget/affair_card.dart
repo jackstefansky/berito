@@ -1,10 +1,10 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:berito/core/util/util.dart';
 import 'package:berito/model/model.dart';
-import 'package:berito/widget/widget.dart';
 import 'package:flutter/material.dart';
 
 import 'affair_type_style.dart';
+import 'info_row.dart';
 
 class AffairCard extends StatelessWidget {
   const AffairCard({super.key, required this.affair});

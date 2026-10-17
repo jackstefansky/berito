@@ -13,10 +13,6 @@ class RemoteScheduleRepository implements ScheduleRepository {
   final ScheduleRemoteDataSource _dataSource;
 
   @override
-  Future<List<ClassSession>> getUpcomingClasses() =>
-      _dataSource.getUpcomingClasses();
-
-  @override
   Future<List<ClassSession>> getSchedule() => _dataSource.getSchedule();
 
   @override

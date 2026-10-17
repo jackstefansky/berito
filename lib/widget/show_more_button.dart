@@ -2,10 +2,15 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:berito/core/theme/theme.dart';
 import 'package:flutter/widgets.dart';
 
-/// "Pokaż więcej" button at the bottom of a section. Not functional yet.
+/// "Pokaż więcej" button at the bottom of a section.
 class ShowMoreButton extends StatelessWidget {
-  const ShowMoreButton({super.key, this.label = 'Pokaż więcej'});
+  const ShowMoreButton({
+    super.key,
+    required this.onPressed,
+    this.label = 'Pokaż więcej',
+  });
 
+  final VoidCallback onPressed;
   final String label;
 
   @override
@@ -13,8 +18,7 @@ class ShowMoreButton extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: AdaptiveButton(
-        // TODO: navigate to the full list.
-        onPressed: () {},
+        onPressed: onPressed,
         style: AdaptiveButtonStyle.plain,
         color: AppTheme.brandGreen,
         padding: const EdgeInsets.symmetric(vertical: 4),

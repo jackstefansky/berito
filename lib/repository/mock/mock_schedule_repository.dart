@@ -10,10 +10,6 @@ import '../schedule_repository.dart';
 @LazySingleton(as: ScheduleRepository)
 class MockScheduleRepository implements ScheduleRepository {
   @override
-  Future<List<ClassSession>> getUpcomingClasses() async =>
-      (await getSchedule()).take(3).toList();
-
-  @override
   Future<ClassSession> getClass(String id) async {
     final all = await getSchedule();
     return all.firstWhere(

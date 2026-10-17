@@ -14,7 +14,7 @@ class HomeCubit extends DataCubit<HomeData> {
   ) : super(() async {
           final (student, classes, affairList, announcementList) = await (
             students.getCurrentStudent(),
-            schedule.getUpcomingClasses(),
+            schedule.getSchedule(),
             affairs.getAffairs(),
             announcements.getAnnouncements(),
           ).wait;

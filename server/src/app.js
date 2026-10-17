@@ -115,24 +115,19 @@ function toClass(row) {
   return { ...row, start: iso(row.start), end: iso(row.end) };
 }
 
-function upcomingClasses(limit) {
+function upcomingClasses() {
   return db
     .prepare(
       `SELECT ${CLASS_COLUMNS} FROM classes
-       WHERE start >= ? ORDER BY start LIMIT ?`,
+       WHERE start >= ? ORDER BY start`,
     )
-    .all(Date.now(), limit)
+    .all(Date.now())
     .map(toClass);
 }
 
 // GET /schedule (Bearer) -> all upcoming classes, soonest first
 app.get('/schedule', requireAuth, (req, res) => {
-  res.json(upcomingClasses(-1));
-});
-
-// GET /schedule/upcoming (Bearer) -> the next 3 classes (home page)
-app.get('/schedule/upcoming', requireAuth, (req, res) => {
-  res.json(upcomingClasses(3));
+  res.json(upcomingClasses());
 });
 
 // GET /schedule/:id (Bearer) -> one class

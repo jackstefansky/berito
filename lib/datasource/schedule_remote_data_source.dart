@@ -9,9 +9,6 @@ class ScheduleRemoteDataSource {
 
   final ApiClient _api;
 
-  Future<List<ClassSession>> getUpcomingClasses() =>
-      _fetchList('/schedule/upcoming');
-
   Future<List<ClassSession>> getSchedule() => _fetchList('/schedule');
 
   Future<ClassSession> getClass(String id) async {

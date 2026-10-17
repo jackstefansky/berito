@@ -52,6 +52,9 @@ import 'package:berito/repository/remote/remote_student_repository.dart'
 import 'package:berito/repository/repository.dart' as _i694;
 import 'package:berito/repository/schedule_repository.dart' as _i1034;
 import 'package:berito/repository/student_repository.dart' as _i709;
+import 'package:berito/screen/affair/cubit/affair_cubit.dart' as _i802;
+import 'package:berito/screen/announcement/cubit/announcement_cubit.dart'
+    as _i214;
 import 'package:berito/screen/assignment/cubit/assignment_cubit.dart' as _i862;
 import 'package:berito/screen/class_detail/cubit/class_detail_cubit.dart'
     as _i822;
@@ -173,6 +176,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i862.AssignmentCubit>(
       () => _i862.AssignmentCubit(gh<_i694.AssignmentRepository>()),
+    );
+    gh.factory<_i802.AffairCubit>(
+      () => _i802.AffairCubit(gh<_i694.AffairRepository>()),
+    );
+    gh.factory<_i214.AnnouncementCubit>(
+      () => _i214.AnnouncementCubit(gh<_i694.AnnouncementRepository>()),
     );
     gh.factory<_i1015.StudyCubit>(
       () => _i1015.StudyCubit(

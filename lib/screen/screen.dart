@@ -1,3 +1,5 @@
+export 'affair/affair.dart';
+export 'announcement/announcement.dart';
 export 'assignment/assignment.dart';
 export 'backpack/backpack.dart';
 export 'class_detail/class_detail.dart';

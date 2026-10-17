@@ -1,8 +1,8 @@
+import 'package:berito/core/router/router.dart';
 import 'package:berito/model/model.dart';
 import 'package:berito/widget/widget.dart';
 import 'package:flutter/widgets.dart';
-
-import 'affair_card.dart';
+import 'package:go_router/go_router.dart';
 
 class AffairsSection extends StatelessWidget {
   const AffairsSection({super.key, required this.affairs});
@@ -19,7 +19,8 @@ class AffairsSection extends StatelessWidget {
           AffairCard(affair: affair),
           const SizedBox(height: 12),
         ],
-        const ShowMoreButton(),
+        if (affairs.length > 3)
+          ShowMoreButton(onPressed: () => context.push(AppRoute.affair)),
       ],
     );
   }

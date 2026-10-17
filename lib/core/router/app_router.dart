@@ -52,6 +52,20 @@ class AppRouter {
                 child: const ClassDetailScreen(),
               ),
             ),
+            GoRoute(
+              path: AppRoute.affair,
+              builder: (context, state) => BlocProvider(
+                create: (_) => getIt<AffairCubit>(),
+                child: const AffairScreen(),
+              ),
+            ),
+            GoRoute(
+              path: AppRoute.announcement,
+              builder: (context, state) => BlocProvider(
+                create: (_) => getIt<AnnouncementCubit>(),
+                child: const AnnouncementScreen(),
+              ),
+            ),
             StatefulShellRoute.indexedStack(
               builder: (context, state, navigationShell) =>
                   MainScreen(navigationShell: navigationShell),
