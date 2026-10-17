@@ -1,3 +1,4 @@
+import 'package:berito/core/theme/theme.dart';
 import 'package:flutter/widgets.dart';
 
 class SectionHeader extends StatelessWidget {
@@ -11,7 +12,11 @@ class SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+        style: const TextStyle(
+          fontFamily: AppFonts.heading,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

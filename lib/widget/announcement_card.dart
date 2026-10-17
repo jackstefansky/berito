@@ -1,4 +1,5 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:berito/core/theme/theme.dart';
 import 'package:berito/model/model.dart';
 import 'package:flutter/widgets.dart';
 
@@ -16,7 +17,11 @@ class AnnouncementCard extends StatelessWidget {
         children: [
           Text(
             announcement.title,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+            style: const TextStyle(
+              fontFamily: AppFonts.heading,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 2),
           Text(

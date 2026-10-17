@@ -1,4 +1,5 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:berito/core/theme/theme.dart';
 import 'package:berito/core/util/util.dart';
 import 'package:berito/model/model.dart';
 import 'package:berito/widget/widget.dart';
@@ -29,6 +30,7 @@ class GradeCard extends StatelessWidget {
             child: Text(
               grade.label,
               style: TextStyle(
+                fontFamily: AppFonts.heading,
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
                 color: color,
@@ -45,6 +47,7 @@ class GradeCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
+                    fontFamily: AppFonts.heading,
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),

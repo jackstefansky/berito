@@ -88,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Zaloguj się do portalu studenta',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontFamily: AppFonts.heading,
                               fontWeight: FontWeight.w600,
                             ),
                       ),

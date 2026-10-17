@@ -1,3 +1,4 @@
+import 'package:berito/core/theme/theme.dart';
 import 'package:berito/core/util/util.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -14,6 +15,7 @@ class DayHeader extends StatelessWidget {
       child: Text(
         PolishDate.dayHeader(day),
         style: TextStyle(
+          fontFamily: AppFonts.heading,
           fontSize: 13,
           fontWeight: FontWeight.w700,
           color: CupertinoColors.secondaryLabel.resolveFrom(context),

@@ -1,3 +1,4 @@
+import 'package:berito/core/theme/theme.dart';
 import 'package:flutter/widgets.dart';
 
 class GreetingHeader extends StatelessWidget {
@@ -9,7 +10,11 @@ class GreetingHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'Witaj, $name!',
-      style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w800),
+      style: const TextStyle(
+        fontFamily: AppFonts.heading,
+        fontSize: 32,
+        fontWeight: FontWeight.w800,
+      ),
     );
   }
 }

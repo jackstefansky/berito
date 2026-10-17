@@ -10,6 +10,7 @@ class BeritoLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = TextStyle(
+      fontFamily: AppFonts.heading,
       fontSize: size * 0.58,
       fontWeight: FontWeight.w900, // heaviest weight the font offers
       height: 1,

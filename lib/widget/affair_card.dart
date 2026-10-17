@@ -1,4 +1,5 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:berito/core/theme/theme.dart';
 import 'package:berito/core/util/util.dart';
 import 'package:berito/model/model.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class AffairCard extends StatelessWidget {
                 Text(
                   affair.title,
                   style: const TextStyle(
+                    fontFamily: AppFonts.heading,
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),

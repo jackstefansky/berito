@@ -44,6 +44,7 @@ lib/
 
 ### UI
 
+- Fonts: Rubik (`AppFonts.heading`) for headings and card titles, Outfit (`AppFonts.body`) for everything else (set as the theme default). Bundled static instances in `assets/fonts/` (cut from the Google Fonts variable files, OFL); add a weight in `pubspec.yaml` before using it.
 - Prefer `adaptive_platform_ui` widgets (see the `adaptive-platform-ui` skill) over raw Material/Cupertino widgets.
 
 ## Git workflow

@@ -1,4 +1,5 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:berito/core/theme/theme.dart';
 import 'package:berito/core/util/util.dart';
 import 'package:berito/model/model.dart';
 import 'package:berito/widget/widget.dart';
@@ -24,7 +25,11 @@ class ClassInfoCard extends StatelessWidget {
         children: [
           Text(
             session.name,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            style: const TextStyle(
+              fontFamily: AppFonts.heading,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
