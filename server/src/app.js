@@ -92,4 +92,78 @@ app.get('/courses/:courseId/assignments', requireAuth, (req, res) => {
   res.json(upcomingAssignments(req.params.courseId));
 });
 
+const iso = (ms) => new Date(ms).toISOString();
+
+// GET /students/me (Bearer) -> the signed-in student
+app.get('/students/me', requireAuth, (req, res) => {
+  const s = db
+    .prepare(
+      `SELECT user_id AS id, first_name AS firstName, last_name AS lastName,
+              index_number AS indexNumber, field_of_study AS fieldOfStudy,
+              semester
+       FROM students WHERE user_id = ?`,
+    )
+    .get(req.session.userId);
+  if (!s) return res.status(404).json({ error: 'Nie znaleziono studenta' });
+  res.json(s);
+});
+
+const CLASS_COLUMNS = `id, course_id AS courseId, name, type, start, end,
+                       lecturer, room, meeting_url AS meetingUrl`;
+
+function toClass(row) {
+  return { ...row, start: iso(row.start), end: iso(row.end) };
+}
+
+function upcomingClasses(limit) {
+  return db
+    .prepare(
+      `SELECT ${CLASS_COLUMNS} FROM classes
+       WHERE start >= ? ORDER BY start LIMIT ?`,
+    )
+    .all(Date.now(), limit)
+    .map(toClass);
+}
+
+// GET /schedule (Bearer) -> all upcoming classes, soonest first
+app.get('/schedule', requireAuth, (req, res) => {
+  res.json(upcomingClasses(-1));
+});
+
+// GET /schedule/upcoming (Bearer) -> the next 3 classes (home page)
+app.get('/schedule/upcoming', requireAuth, (req, res) => {
+  res.json(upcomingClasses(3));
+});
+
+// GET /schedule/:id (Bearer) -> one class
+app.get('/schedule/:id', requireAuth, (req, res) => {
+  const row = db
+    .prepare(`SELECT ${CLASS_COLUMNS} FROM classes WHERE id = ?`)
+    .get(req.params.id);
+  if (!row) return res.status(404).json({ error: 'Nie znaleziono zajęć' });
+  res.json(toClass(row));
+});
+
+// GET /affairs (Bearer) -> things to take care of, most urgent first
+app.get('/affairs', requireAuth, (req, res) => {
+  const rows = db
+    .prepare(
+      `SELECT id, type, title, description, due_date AS dueDate
+       FROM affairs WHERE due_date >= ? ORDER BY due_date`,
+    )
+    .all(Date.now());
+  res.json(rows.map((r) => ({ ...r, dueDate: iso(r.dueDate) })));
+});
+
+// GET /announcements (Bearer) -> newest first
+app.get('/announcements', requireAuth, (req, res) => {
+  const rows = db
+    .prepare(
+      `SELECT id, title, description, published_at AS publishedAt
+       FROM announcements ORDER BY published_at DESC`,
+    )
+    .all();
+  res.json(rows.map((r) => ({ ...r, publishedAt: iso(r.publishedAt) })));
+});
+
 export default app;

@@ -1,4 +1,8 @@
+export 'affair_remote_data_source.dart';
+export 'announcement_remote_data_source.dart';
 export 'api_client.dart';
 export 'assignment_remote_data_source.dart';
 export 'auth_remote_data_source.dart';
 export 'auth_token_storage.dart';
+export 'schedule_remote_data_source.dart';
+export 'student_remote_data_source.dart';

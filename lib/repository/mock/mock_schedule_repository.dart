@@ -1,10 +1,12 @@
 import 'package:berito/core/error/error.dart';
+import 'package:berito/core/di/di.dart';
 import 'package:berito/model/model.dart';
 import 'package:injectable/injectable.dart';
 
 import '../schedule_repository.dart';
 
 /// Stub data relative to "now" so the classes are always upcoming.
+@Environment(AppEnvironment.mock)
 @LazySingleton(as: ScheduleRepository)
 class MockScheduleRepository implements ScheduleRepository {
   @override

@@ -13,6 +13,38 @@ db.exec(`
     user_id    TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     created_at INTEGER NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS students (
+    user_id        TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    first_name     TEXT NOT NULL,
+    last_name      TEXT NOT NULL,
+    index_number   TEXT NOT NULL,
+    field_of_study TEXT NOT NULL,
+    semester       INTEGER NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS classes (
+    id          TEXT PRIMARY KEY,
+    course_id   TEXT NOT NULL,
+    name        TEXT NOT NULL,
+    type        TEXT NOT NULL CHECK (type IN ('lecture', 'laboratory', 'conversatory')),
+    start       INTEGER NOT NULL,
+    end         INTEGER NOT NULL,
+    lecturer    TEXT NOT NULL,
+    room        TEXT,
+    meeting_url TEXT
+  );
+  CREATE TABLE IF NOT EXISTS affairs (
+    id          TEXT PRIMARY KEY,
+    type        TEXT NOT NULL CHECK (type IN ('payment', 'exam', 'assignment')),
+    title       TEXT NOT NULL,
+    description TEXT NOT NULL,
+    due_date    INTEGER NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS announcements (
+    id           TEXT PRIMARY KEY,
+    title        TEXT NOT NULL,
+    description  TEXT NOT NULL,
+    published_at INTEGER NOT NULL
+  );
   CREATE TABLE IF NOT EXISTS assignments (
     id          TEXT PRIMARY KEY,
     course_id   TEXT NOT NULL,

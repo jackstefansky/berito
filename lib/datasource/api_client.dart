@@ -37,8 +37,8 @@ class ApiClient {
   }
 
   /// Authenticated GET returning the decoded JSON body. Throws a `Failure`
-  /// on any non-200 response.
-  Future<Object?> getJson(String path) async {
+  /// on any non-200 response ([notFoundMessage] for a 404).
+  Future<Object?> getJson(String path, {String? notFoundMessage}) async {
     final token = _tokens.token;
     final response = await send(
       () => _client.get(
@@ -49,6 +49,9 @@ class ApiClient {
       ),
     );
     if (response.statusCode == 401) throw const Failure('Sesja wygasła');
+    if (response.statusCode == 404 && notFoundMessage != null) {
+      throw Failure(notFoundMessage);
+    }
     if (response.statusCode != 200) throw const Failure('Błąd serwera');
     return jsonDecode(response.body);
   }

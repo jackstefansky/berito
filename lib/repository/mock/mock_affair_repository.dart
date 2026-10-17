@@ -1,8 +1,10 @@
+import 'package:berito/core/di/di.dart';
 import 'package:berito/model/model.dart';
 import 'package:injectable/injectable.dart';
 
 import '../affair_repository.dart';
 
+@Environment(AppEnvironment.mock)
 @LazySingleton(as: AffairRepository)
 class MockAffairRepository implements AffairRepository {
   @override

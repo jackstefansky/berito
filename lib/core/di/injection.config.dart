@@ -14,11 +14,16 @@ import 'package:berito/core/auth/auth.dart' as _i755;
 import 'package:berito/core/auth/auth_cubit.dart' as _i422;
 import 'package:berito/core/di/app_module.dart' as _i343;
 import 'package:berito/core/router/app_router.dart' as _i564;
+import 'package:berito/datasource/affair_remote_data_source.dart' as _i938;
+import 'package:berito/datasource/announcement_remote_data_source.dart'
+    as _i869;
 import 'package:berito/datasource/api_client.dart' as _i419;
 import 'package:berito/datasource/assignment_remote_data_source.dart' as _i304;
 import 'package:berito/datasource/auth_remote_data_source.dart' as _i736;
 import 'package:berito/datasource/auth_token_storage.dart' as _i853;
 import 'package:berito/datasource/datasource.dart' as _i318;
+import 'package:berito/datasource/schedule_remote_data_source.dart' as _i839;
+import 'package:berito/datasource/student_remote_data_source.dart' as _i91;
 import 'package:berito/repository/affair_repository.dart' as _i150;
 import 'package:berito/repository/announcement_repository.dart' as _i529;
 import 'package:berito/repository/assignment_repository.dart' as _i1045;
@@ -33,9 +38,17 @@ import 'package:berito/repository/mock/mock_auth_repository.dart' as _i821;
 import 'package:berito/repository/mock/mock_grade_repository.dart' as _i630;
 import 'package:berito/repository/mock/mock_schedule_repository.dart' as _i845;
 import 'package:berito/repository/mock/mock_student_repository.dart' as _i253;
+import 'package:berito/repository/remote/remote_affair_repository.dart'
+    as _i881;
+import 'package:berito/repository/remote/remote_announcement_repository.dart'
+    as _i445;
 import 'package:berito/repository/remote/remote_assignment_repository.dart'
     as _i831;
 import 'package:berito/repository/remote/remote_auth_repository.dart' as _i948;
+import 'package:berito/repository/remote/remote_schedule_repository.dart'
+    as _i335;
+import 'package:berito/repository/remote/remote_student_repository.dart'
+    as _i71;
 import 'package:berito/repository/repository.dart' as _i694;
 import 'package:berito/repository/schedule_repository.dart' as _i1034;
 import 'package:berito/repository/student_repository.dart' as _i709;
@@ -66,21 +79,25 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i519.Client>(() => appModule.httpClient);
+    gh.lazySingleton<_i1034.ScheduleRepository>(
+      () => _i845.MockScheduleRepository(),
+      registerFor: {_mock},
+    );
     gh.lazySingleton<_i1045.AssignmentRepository>(
       () => _i468.MockAssignmentRepository(),
       registerFor: {_mock},
     );
-    gh.lazySingleton<_i529.AnnouncementRepository>(
-      () => _i315.MockAnnouncementRepository(),
+    gh.lazySingleton<_i150.AffairRepository>(
+      () => _i337.MockAffairRepository(),
+      registerFor: {_mock},
     );
     gh.lazySingleton<_i709.StudentRepository>(
       () => _i253.MockStudentRepository(),
+      registerFor: {_mock},
     );
-    gh.lazySingleton<_i150.AffairRepository>(
-      () => _i337.MockAffairRepository(),
-    );
-    gh.lazySingleton<_i1034.ScheduleRepository>(
-      () => _i845.MockScheduleRepository(),
+    gh.lazySingleton<_i529.AnnouncementRepository>(
+      () => _i315.MockAnnouncementRepository(),
+      registerFor: {_mock},
     );
     gh.lazySingleton<_i910.GradeRepository>(() => _i630.MockGradeRepository());
     gh.lazySingleton<_i853.AuthTokenStorage>(
@@ -90,22 +107,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i821.MockAuthRepository(gh<_i460.SharedPreferences>()),
       registerFor: {_mock},
     );
-    gh.factory<_i1015.StudyCubit>(
-      () => _i1015.StudyCubit(
-        gh<_i694.ScheduleRepository>(),
-        gh<_i694.GradeRepository>(),
-      ),
-    );
     gh.lazySingleton<_i419.ApiClient>(
       () => _i419.ApiClient(gh<_i519.Client>(), gh<_i853.AuthTokenStorage>()),
-    );
-    gh.factory<_i74.HomeCubit>(
-      () => _i74.HomeCubit(
-        gh<_i694.StudentRepository>(),
-        gh<_i694.ScheduleRepository>(),
-        gh<_i694.AffairRepository>(),
-        gh<_i694.AnnouncementRepository>(),
-      ),
     );
     gh.lazySingleton<_i736.AuthRemoteDataSource>(
       () =>
@@ -119,8 +122,39 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       registerFor: {_remote},
     );
+    gh.lazySingleton<_i938.AffairRemoteDataSource>(
+      () => _i938.AffairRemoteDataSource(gh<_i419.ApiClient>()),
+    );
+    gh.lazySingleton<_i869.AnnouncementRemoteDataSource>(
+      () => _i869.AnnouncementRemoteDataSource(gh<_i419.ApiClient>()),
+    );
     gh.lazySingleton<_i304.AssignmentRemoteDataSource>(
       () => _i304.AssignmentRemoteDataSource(gh<_i419.ApiClient>()),
+    );
+    gh.lazySingleton<_i839.ScheduleRemoteDataSource>(
+      () => _i839.ScheduleRemoteDataSource(gh<_i419.ApiClient>()),
+    );
+    gh.lazySingleton<_i91.StudentRemoteDataSource>(
+      () => _i91.StudentRemoteDataSource(gh<_i419.ApiClient>()),
+    );
+    gh.lazySingleton<_i150.AffairRepository>(
+      () => _i881.RemoteAffairRepository(gh<_i318.AffairRemoteDataSource>()),
+      registerFor: {_remote},
+    );
+    gh.lazySingleton<_i529.AnnouncementRepository>(
+      () => _i445.RemoteAnnouncementRepository(
+        gh<_i318.AnnouncementRemoteDataSource>(),
+      ),
+      registerFor: {_remote},
+    );
+    gh.lazySingleton<_i1034.ScheduleRepository>(
+      () =>
+          _i335.RemoteScheduleRepository(gh<_i318.ScheduleRemoteDataSource>()),
+      registerFor: {_remote},
+    );
+    gh.lazySingleton<_i709.StudentRepository>(
+      () => _i71.RemoteStudentRepository(gh<_i318.StudentRemoteDataSource>()),
+      registerFor: {_remote},
     );
     gh.lazySingleton<_i422.AuthCubit>(
       () => _i422.AuthCubit(gh<_i694.AuthRepository>()),
@@ -140,11 +174,25 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i862.AssignmentCubit>(
       () => _i862.AssignmentCubit(gh<_i694.AssignmentRepository>()),
     );
+    gh.factory<_i1015.StudyCubit>(
+      () => _i1015.StudyCubit(
+        gh<_i694.ScheduleRepository>(),
+        gh<_i694.GradeRepository>(),
+      ),
+    );
     gh.factoryParam<_i822.ClassDetailCubit, String, dynamic>(
       (classId, _) => _i822.ClassDetailCubit(
         gh<_i694.ScheduleRepository>(),
         gh<_i694.AssignmentRepository>(),
         classId,
+      ),
+    );
+    gh.factory<_i74.HomeCubit>(
+      () => _i74.HomeCubit(
+        gh<_i694.StudentRepository>(),
+        gh<_i694.ScheduleRepository>(),
+        gh<_i694.AffairRepository>(),
+        gh<_i694.AnnouncementRepository>(),
       ),
     );
     return this;

@@ -13,6 +13,9 @@ npm start      # http://localhost:3000
 - `POST /auth/logout` (Bearer) -> 204
 - `GET /assignments` (Bearer) -> upcoming assignments, nearest due date first
 - `GET /courses/:courseId/assignments` (Bearer) -> same, for one course
+- `GET /students/me` (Bearer) -> the signed-in student
+- `GET /schedule`, `GET /schedule/upcoming` (next 3), `GET /schedule/:id` (Bearer) -> classes
+- `GET /affairs`, `GET /announcements` (Bearer)
 
 Seed due dates are relative to when `npm run seed` runs; re-run it to refresh them.
 
