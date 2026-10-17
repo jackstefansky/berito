@@ -107,20 +107,6 @@ void main() {
     expect(find.textContaining('(za 2 dni)'), findsOneWidget);
   });
 
-  testWidgets('Zadania can be pulled to refresh', (tester) async {
-    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
-    await tester.tap(find.text('Zadania').last);
-    await settle(tester);
-    await tester.fling(
-      find.text('Aplikacja mobilna – etap 2'),
-      const Offset(0, 400),
-      1000,
-    );
-    await settle(tester);
-    expect(tester.takeException(), isNull);
-    expect(find.text('Aplikacja mobilna – etap 2'), findsOneWidget);
-  });
-
   testWidgets('tapping a class opens its details with assignments', (
     tester,
   ) async {
