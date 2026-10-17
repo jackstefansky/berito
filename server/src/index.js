@@ -1,6 +1,6 @@
-import app from './app.js';
+import { app } from './app.js';
+import { config } from './config.js';
 
-const port = process.env.PORT ?? 3000;
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Berito server listening on http://0.0.0.0:${port}`);
+app.listen(config.port, '0.0.0.0', () => {
+  console.log(`Berito server listening on http://0.0.0.0:${config.port}`);
 });
