@@ -28,6 +28,19 @@ class AssignmentScreen extends StatelessWidget {
               ),
             CupertinoSliverRefreshControl(
               onRefresh: context.read<AssignmentCubit>().refresh,
+              // The default builder fades the spinner in very faintly.
+              builder: (context, mode, pulledExtent, triggerDistance, _) =>
+                  Center(
+                    child: switch (mode) {
+                      RefreshIndicatorMode.refresh ||
+                      RefreshIndicatorMode.armed =>
+                        const CupertinoActivityIndicator(radius: 14),
+                      _ => CupertinoActivityIndicator.partiallyRevealed(
+                        radius: 14,
+                        progress: (pulledExtent / triggerDistance).clamp(0, 1),
+                      ),
+                    },
+                  ),
             ),
             SliverPadding(
               padding: EdgeInsets.fromLTRB(
