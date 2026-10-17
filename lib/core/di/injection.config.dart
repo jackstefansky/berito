@@ -14,6 +14,8 @@ import 'package:berito/core/auth/auth.dart' as _i755;
 import 'package:berito/core/auth/auth_cubit.dart' as _i422;
 import 'package:berito/core/di/app_module.dart' as _i343;
 import 'package:berito/core/router/app_router.dart' as _i564;
+import 'package:berito/datasource/auth_remote_data_source.dart' as _i736;
+import 'package:berito/datasource/datasource.dart' as _i318;
 import 'package:berito/repository/affair_repository.dart' as _i150;
 import 'package:berito/repository/announcement_repository.dart' as _i529;
 import 'package:berito/repository/assignment_repository.dart' as _i1045;
@@ -28,6 +30,7 @@ import 'package:berito/repository/mock/mock_auth_repository.dart' as _i821;
 import 'package:berito/repository/mock/mock_grade_repository.dart' as _i630;
 import 'package:berito/repository/mock/mock_schedule_repository.dart' as _i845;
 import 'package:berito/repository/mock/mock_student_repository.dart' as _i253;
+import 'package:berito/repository/remote/remote_auth_repository.dart' as _i948;
 import 'package:berito/repository/repository.dart' as _i694;
 import 'package:berito/repository/schedule_repository.dart' as _i1034;
 import 'package:berito/repository/student_repository.dart' as _i709;
@@ -38,8 +41,12 @@ import 'package:berito/screen/home/cubit/home_cubit.dart' as _i74;
 import 'package:berito/screen/login/cubit/login_cubit.dart' as _i287;
 import 'package:berito/screen/study/cubit/study_cubit.dart' as _i1015;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:http/http.dart' as _i519;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
+
+const String _mock = 'mock';
+const String _remote = 'remote';
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -53,6 +60,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.sharedPreferences,
       preResolve: true,
     );
+    gh.lazySingleton<_i519.Client>(() => appModule.httpClient);
     gh.lazySingleton<_i529.AnnouncementRepository>(
       () => _i315.MockAnnouncementRepository(),
     );
@@ -69,11 +77,15 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i845.MockScheduleRepository(),
     );
     gh.lazySingleton<_i910.GradeRepository>(() => _i630.MockGradeRepository());
-    gh.lazySingleton<_i670.AuthRepository>(
-      () => _i821.MockAuthRepository(gh<_i460.SharedPreferences>()),
-    );
     gh.factory<_i862.AssignmentCubit>(
       () => _i862.AssignmentCubit(gh<_i694.AssignmentRepository>()),
+    );
+    gh.lazySingleton<_i736.AuthRemoteDataSource>(
+      () => _i736.AuthRemoteDataSource(gh<_i519.Client>()),
+    );
+    gh.lazySingleton<_i670.AuthRepository>(
+      () => _i821.MockAuthRepository(gh<_i460.SharedPreferences>()),
+      registerFor: {_mock},
     );
     gh.factory<_i1015.StudyCubit>(
       () => _i1015.StudyCubit(
@@ -95,6 +107,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i694.AffairRepository>(),
         gh<_i694.AnnouncementRepository>(),
       ),
+    );
+    gh.lazySingleton<_i670.AuthRepository>(
+      () => _i948.RemoteAuthRepository(
+        gh<_i318.AuthRemoteDataSource>(),
+        gh<_i460.SharedPreferences>(),
+      ),
+      registerFor: {_remote},
     );
     gh.lazySingleton<_i422.AuthCubit>(
       () => _i422.AuthCubit(gh<_i694.AuthRepository>()),

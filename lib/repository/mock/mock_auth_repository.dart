@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:berito/core/di/di.dart';
 import 'package:berito/core/error/error.dart';
 import 'package:berito/model/model.dart';
 import 'package:injectable/injectable.dart';
@@ -12,6 +13,7 @@ import 'mock_data.dart';
 /// SharedPreferences) so the user stays signed in across app restarts.
 /// Supabase manages its own session persistence, so this is mock-only.
 /// Demo credentials: [MockData.email] / [MockData.password].
+@Environment(AppEnvironment.mock)
 @LazySingleton(as: AuthRepository)
 class MockAuthRepository implements AuthRepository {
   MockAuthRepository(this._prefs);

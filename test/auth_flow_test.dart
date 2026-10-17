@@ -13,14 +13,11 @@ Future<void> settle(WidgetTester tester) async {
   }
 }
 
-Future<void> boot(
-  WidgetTester tester,
-  Map<String, Object> storedPrefs,
-) async {
+Future<void> boot(WidgetTester tester, Map<String, Object> storedPrefs) async {
   SharedPreferences.setMockInitialValues(storedPrefs);
   await tester.runAsync(() async {
     await getIt.reset();
-    await configureDependencies();
+    await configureDependencies(environment: AppEnvironment.mock);
   });
   await tester.pumpWidget(const BeritoApp());
   await settle(tester);
@@ -31,10 +28,12 @@ void main() {
     await boot(tester, {});
     expect(find.text('Zaloguj się'), findsWidgets);
 
-    unawaited(getIt<AuthRepository>().signIn(
-      email: MockData.email,
-      password: MockData.password,
-    ));
+    unawaited(
+      getIt<AuthRepository>().signIn(
+        email: MockData.email,
+        password: MockData.password,
+      ),
+    );
     await settle(tester);
     expect(find.textContaining('Witaj, Jan'), findsOneWidget);
 
@@ -44,18 +43,12 @@ void main() {
   });
 
   testWidgets('stays signed in when a session was persisted', (tester) async {
-    await boot(tester, {
-      'auth.userId': 's1',
-      'auth.email': MockData.email,
-    });
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
     expect(find.textContaining('Witaj, Jan'), findsOneWidget);
   });
 
   testWidgets('signing out clears the persisted session', (tester) async {
-    await boot(tester, {
-      'auth.userId': 's1',
-      'auth.email': MockData.email,
-    });
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
     unawaited(getIt<AuthRepository>().signOut());
     await settle(tester);
     expect(await getIt<AuthRepository>().restoreSession(), isNull);
@@ -63,10 +56,7 @@ void main() {
   });
 
   testWidgets('bottom bar switches between the five tabs', (tester) async {
-    await boot(tester, {
-      'auth.userId': 's1',
-      'auth.email': MockData.email,
-    });
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
     for (final tab in ['Studia', 'Plecak', 'Więcej']) {
       await tester.tap(find.text(tab).last);
       await settle(tester);
@@ -79,10 +69,7 @@ void main() {
   });
 
   testWidgets('Dziś shows greeting and the three sections', (tester) async {
-    await boot(tester, {
-      'auth.userId': 's1',
-      'auth.email': MockData.email,
-    });
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
     expect(find.text('Witaj, Jan!'), findsOneWidget);
     expect(find.text('Nadchodzące zajęcia'), findsOneWidget);
     expect(find.text('Systemy rozproszone'), findsWidgets);
@@ -94,10 +81,7 @@ void main() {
   });
 
   testWidgets('Studia shows schedule by day and grades', (tester) async {
-    await boot(tester, {
-      'auth.userId': 's1',
-      'auth.email': MockData.email,
-    });
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
     await tester.tap(find.text('Studia').last);
     await settle(tester);
     expect(find.text('Harmonogram'), findsOneWidget);
@@ -115,10 +99,7 @@ void main() {
   });
 
   testWidgets('Zadania lists upcoming assignments', (tester) async {
-    await boot(tester, {
-      'auth.userId': 's1',
-      'auth.email': MockData.email,
-    });
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
     await tester.tap(find.text('Zadania').last);
     await settle(tester);
     expect(find.text('Aplikacja mobilna – etap 2'), findsOneWidget);
@@ -129,10 +110,7 @@ void main() {
   testWidgets('tapping a class opens its details with assignments', (
     tester,
   ) async {
-    await boot(tester, {
-      'auth.userId': 's1',
-      'auth.email': MockData.email,
-    });
+    await boot(tester, {'auth.userId': 's1', 'auth.email': MockData.email});
     await tester.tap(find.text('Studia').last);
     await settle(tester);
     await tester.tap(

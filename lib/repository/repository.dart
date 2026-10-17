@@ -4,5 +4,6 @@ export 'assignment_repository.dart';
 export 'auth_repository.dart';
 export 'grade_repository.dart';
 export 'mock/mock.dart';
+export 'remote/remote.dart';
 export 'schedule_repository.dart';
 export 'student_repository.dart';
