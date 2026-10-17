@@ -11,5 +11,9 @@ npm start      # http://localhost:3000
 - `POST /auth/login` `{email, password}` -> `{token, userId, email}`
 - `GET /auth/session` (`Authorization: Bearer <token>`) -> `{userId, email}`
 - `POST /auth/logout` (Bearer) -> 204
+- `GET /assignments` (Bearer) -> upcoming assignments, nearest due date first
+- `GET /courses/:courseId/assignments` (Bearer) -> same, for one course
+
+Seed due dates are relative to when `npm run seed` runs; re-run it to refresh them.
 
 Env: `PORT` (3000), `DB_PATH` (`berito.db`).

@@ -1,9 +1,11 @@
+import 'package:berito/core/di/di.dart';
 import 'package:berito/model/model.dart';
 import 'package:injectable/injectable.dart';
 
 import '../assignment_repository.dart';
 
 /// Stub data relative to "now" so the assignments are always upcoming.
+@Environment(AppEnvironment.mock)
 @LazySingleton(as: AssignmentRepository)
 class MockAssignmentRepository implements AssignmentRepository {
   @override

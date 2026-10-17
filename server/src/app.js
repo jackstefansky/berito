@@ -24,6 +24,14 @@ function sessionFor(token) {
   );
 }
 
+// Rejects with 401 unless the request carries a valid session token.
+function requireAuth(req, res, next) {
+  const session = sessionFor(bearerToken(req));
+  if (!session) return res.status(401).json({ error: 'Sesja wygasła' });
+  req.session = session;
+  next();
+}
+
 // POST /auth/login {email, password} -> {token, userId, email}
 app.post('/auth/login', (req, res) => {
   const { email, password } = req.body ?? {};
@@ -44,10 +52,8 @@ app.post('/auth/login', (req, res) => {
 });
 
 // GET /auth/session (Bearer) -> {userId, email}
-app.get('/auth/session', (req, res) => {
-  const session = sessionFor(bearerToken(req));
-  if (!session) return res.status(401).json({ error: 'Sesja wygasła' });
-  res.json(session);
+app.get('/auth/session', requireAuth, (req, res) => {
+  res.json(req.session);
 });
 
 // POST /auth/logout (Bearer) -> 204
@@ -55,6 +61,29 @@ app.post('/auth/logout', (req, res) => {
   const token = bearerToken(req);
   if (token) db.prepare('DELETE FROM sessions WHERE token = ?').run(token);
   res.status(204).end();
+});
+
+function upcomingAssignments(courseId) {
+  const rows = db
+    .prepare(
+      `SELECT id, course_id AS courseId, title, course_name AS courseName,
+              type, due_date AS dueDate
+       FROM assignments
+       WHERE due_date >= ? AND (? IS NULL OR course_id = ?)
+       ORDER BY due_date`,
+    )
+    .all(Date.now(), courseId, courseId);
+  return rows.map((r) => ({ ...r, dueDate: new Date(r.dueDate).toISOString() }));
+}
+
+// GET /assignments (Bearer) -> upcoming assignments, nearest due date first
+app.get('/assignments', requireAuth, (req, res) => {
+  res.json(upcomingAssignments(null));
+});
+
+// GET /courses/:courseId/assignments (Bearer) -> same, for one course
+app.get('/courses/:courseId/assignments', requireAuth, (req, res) => {
+  res.json(upcomingAssignments(req.params.courseId));
 });
 
 export default app;

@@ -14,19 +14,19 @@ import '../auth_repository.dart';
 @Environment(AppEnvironment.remote)
 @LazySingleton(as: AuthRepository)
 class RemoteAuthRepository implements AuthRepository {
-  RemoteAuthRepository(this._dataSource, this._prefs);
+  RemoteAuthRepository(this._dataSource, this._tokens, this._prefs);
 
-  static const _tokenKey = 'auth.token';
   static const _userIdKey = 'auth.userId';
   static const _emailKey = 'auth.email';
 
   final AuthRemoteDataSource _dataSource;
+  final AuthTokenStorage _tokens;
   final SharedPreferences _prefs;
   final _controller = StreamController<AuthSession?>.broadcast();
 
   @override
   Future<AuthSession?> restoreSession() async {
-    final token = _prefs.getString(_tokenKey);
+    final token = _tokens.token;
     if (token == null) return null;
     try {
       final session = await _dataSource.fetchSession(token);
@@ -56,7 +56,7 @@ class RemoteAuthRepository implements AuthRepository {
       email: email.trim(),
       password: password,
     );
-    await _prefs.setString(_tokenKey, result.token);
+    await _tokens.save(result.token);
     await _prefs.setString(_userIdKey, result.session.userId);
     await _prefs.setString(_emailKey, result.session.email);
     _controller.add(result.session);
@@ -65,7 +65,7 @@ class RemoteAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    final token = _prefs.getString(_tokenKey);
+    final token = _tokens.token;
     await _clear();
     _controller.add(null);
     if (token != null) {
@@ -78,7 +78,7 @@ class RemoteAuthRepository implements AuthRepository {
   }
 
   Future<void> _clear() async {
-    await _prefs.remove(_tokenKey);
+    await _tokens.clear();
     await _prefs.remove(_userIdKey);
     await _prefs.remove(_emailKey);
   }
