@@ -16,4 +16,4 @@ npm start      # http://localhost:3000
 
 Seed due dates are relative to when `npm run seed` runs; re-run it to refresh them.
 
-Env: `PORT` (3000), `DB_PATH` (`berito.db`).
+Env: `DELAY_MS` (0; delays every response, to test loading states; `npm run start:slow` uses 2000), `PORT` (3000), `DB_PATH` (`berito.db`).

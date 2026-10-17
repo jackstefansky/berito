@@ -130,6 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         onSubmitted: (_) => _submit(),
                       ),
                       const SizedBox(height: 24),
+                      if (submitting) ...[
+                        const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
                       AdaptiveButton(
                         onPressed: submitting ? null : _submit,
                         // Native iOS 26 buttons ignore the app theme; pass the color.

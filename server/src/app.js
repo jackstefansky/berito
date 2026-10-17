@@ -6,6 +6,12 @@ import { verifyPassword } from './password.js';
 const app = express();
 app.use(express.json());
 
+// Artificial latency for testing loading states: DELAY_MS=2000 npm start
+const delayMs = Number(process.env.DELAY_MS ?? 0);
+if (delayMs > 0) {
+  app.use((req, res, next) => setTimeout(next, delayMs));
+}
+
 function bearerToken(req) {
   const [scheme, token] = (req.get('authorization') ?? '').split(' ');
   return scheme === 'Bearer' && token ? token : null;
