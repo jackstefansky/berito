@@ -20,17 +20,19 @@ class AssignmentScreen extends StatelessWidget {
             parent: AlwaysScrollableScrollPhysics(),
           ),
           slivers: [
+            // iOS 26 draws the body under the native toolbar, so start below
+            // it; the refresh control must come after this inset to be visible.
+            if (PlatformInfo.isIOS26OrHigher())
+              SliverToBoxAdapter(
+                child: SizedBox(height: MediaQuery.paddingOf(context).top),
+              ),
             CupertinoSliverRefreshControl(
               onRefresh: context.read<AssignmentCubit>().refresh,
             ),
             SliverPadding(
-              // iOS 26 draws the body under the native toolbar, so start
-              // below it.
               padding: EdgeInsets.fromLTRB(
                 16,
-                PlatformInfo.isIOS26OrHigher()
-                    ? MediaQuery.paddingOf(context).top
-                    : 16,
+                PlatformInfo.isIOS26OrHigher() ? 0 : 16,
                 16,
                 16,
               ),
